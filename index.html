@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashim Banik | Remote Sensing & GIS Specialist</title>
+<meta name="description" content="Professional portfolio of Ashim Banik — Remote Sensing & GIS Specialist, Chilika Development Authority, Odisha.">
+<meta name="author" content="Ashim Banik">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+:root{
+  --bg:#08131f;
+  --panel:#122238;
+  --panel-2:#0f1e2d;
+  --accent:#32d4ff;
+  --accent-dim:#1c8fad;
+  --text:#e9eef3;
+  --text-dim:#a9b7c4;
+  --line:rgba(255,255,255,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;font-family:'Poppins',sans-serif;}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7;}
+.mono{font-family:'JetBrains Mono',monospace;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+section{padding:100px 8%;}
+.container{max-width:1280px;margin:auto;}
+.section-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;color:var(--accent);
+  text-transform:uppercase;letter-spacing:.14em;
+  margin-bottom:14px;display:block;
+}
+.section-title{font-size:clamp(28px,4vw,42px);font-weight:700;margin-bottom:20px;}
+.section-lead{color:var(--text-dim);max-width:640px;margin-bottom:20px;}
+
+/* ---------- LOADER ---------- */
+#loader{
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:99999;transition:opacity .5s ease;
+}
+.spinner{
+  width:56px;height:56px;border:4px solid rgba(50,212,255,.15);
+  border-top:4px solid var(--accent);border-radius:50%;
+  animation:spin .9s linear infinite;margin-bottom:18px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+#loader p{color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.08em;}
+
+/* ---------- NAVBAR ---------- */
+header{
+  position:fixed;top:0;left:0;width:100%;padding:18px 8%;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(6,14,25,.85);backdrop-filter:blur(14px);
+  z-index:999;border-bottom:1px solid var(--line);
+}
+.logo{font-size:20px;font-weight:700;letter-spacing:.02em;}
+.logo span{color:var(--accent);}
+nav{display:flex;gap:30px;}
+nav a{font-size:14px;font-weight:500;color:var(--text-dim);transition:.25s;}
+nav a:hover{color:var(--accent);}
+#menu-btn{display:none;font-size:22px;cursor:pointer;color:var(--text);}
+@media(max-width:860px){
+  nav{position:fixed;top:64px;right:-100%;flex-direction:column;background:var(--panel);
+      width:220px;padding:24px;gap:18px;transition:.35s;border-left:1px solid var(--line);}
+  nav.show{right:0;}
+  #menu-btn{display:block;}
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh;display:flex;align-items:center;position:relative;
+  padding:140px 8% 100px;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(50,212,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(50,212,255,.05) 1px, transparent 1px),
+    repeating-radial-gradient(circle at 20% 30%, transparent 0, transparent 40px, rgba(50,212,255,.05) 41px, transparent 42px),
+    repeating-radial-gradient(circle at 85% 70%, transparent 0, transparent 55px, rgba(50,212,255,.045) 56px, transparent 57px);
+  background-size:48px 48px, 48px 48px, auto, auto;
+  mask-image:radial-gradient(ellipse at 60% 40%, black 10%, transparent 75%);
+}
+.hero::after{
+  content:"";position:absolute;top:0;left:-30%;width:160%;height:2px;
+  background:linear-gradient(90deg, transparent, rgba(50,212,255,.55), transparent);
+  animation:sweep 6s linear infinite;z-index:0;
+}
+@keyframes sweep{
+  0%{transform:translateY(-10px);}
+  100%{transform:translateY(100vh);}
+}
+.hero-content{max-width:760px;position:relative;z-index:1;}
+.hero-content h3{font-size:18px;color:var(--accent);margin-bottom:12px;font-family:'JetBrains Mono',monospace;}
+.hero-content h1{font-size:clamp(38px,6vw,64px);font-weight:800;line-height:1.08;}
+.hero-content h2{margin-top:16px;font-size:clamp(18px,2.6vw,26px);font-weight:500;color:var(--text-dim);min-height:34px;}
+.hero-content h2 #typing{color:var(--accent);}
+.hero-content p{margin-top:24px;max-width:600px;color:var(--text-dim);font-size:16px;}
+.hero .coords{margin-top:22px;font-size:13px;color:#7fa3ad;font-family:'JetBrains Mono',monospace;}
+.buttons{margin-top:38px;display:flex;gap:18px;flex-wrap:wrap;}
+.btn{padding:14px 30px;border-radius:8px;font-weight:600;font-size:14px;transition:.3s;display:inline-flex;align-items:center;gap:10px;}
+.btn.primary{background:var(--accent);color:#06121d;}
+.btn.primary:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(50,212,255,.25);}
+.btn.secondary{border:1.5px solid var(--accent);color:var(--accent);}
+.btn.secondary:hover{background:var(--accent);color:#06121d;}
+
+/* ---------- STATS ---------- */
+.stats{background:var(--panel-2);padding-top:70px;padding-bottom:70px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;}
+.card{background:var(--panel);padding:32px 20px;border-radius:14px;text-align:center;border:1px solid var(--line);transition:.3s;}
+.card:hover{transform:translateY(-6px);border-color:var(--accent-dim);}
+.card h2{font-size:clamp(28px,3vw,38px);color:var(--accent);margin-bottom:8px;font-family:'JetBrains Mono',monospace;}
+.card p{font-size:14px;color:var(--text-dim);}
+
+/* ---------- ABOUT ---------- */
+.about-grid{display:grid;grid-template-columns:300px 1fr;gap:60px;align-items:start;}
+.portrait{width:100%;border-radius:16px;overflow:hidden;border:3px solid var(--accent-dim);}
+.portrait img{width:100%;display:block;object-fit:cover;}
+.about-text p{color:var(--text-dim);margin-bottom:16px;}
+.badges{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;}
+.badges span{padding:8px 16px;background:var(--panel);border:1px solid var(--line);border-radius:30px;font-size:13px;color:var(--text-dim);}
+@media(max-width:860px){.about-grid{grid-template-columns:1fr;}.portrait{max-width:260px;}}
+
+/* ---------- SKILLS ---------- */
+.skills{background:var(--panel-2);}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:36px;}
+.skill-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;transition:.3s;}
+.skill-card:hover{transform:translateY(-6px);}
+.skill-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.skill-top i{font-size:20px;color:var(--accent);}
+.skill-top h3{font-size:15px;font-weight:600;}
+.progress{height:6px;background:rgba(255,255,255,.08);border-radius:20px;overflow:hidden;}
+.progress span{display:block;height:100%;background:var(--accent);border-radius:20px;}
+.skill-note{margin-top:36px;font-size:13px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
+
+/* ---------- EXPERIENCE TIMELINE ---------- */
+.timeline{border-left:2px solid var(--accent-dim);margin-top:44px;padding-left:38px;}
+.timeline-item{margin-bottom:44px;position:relative;}
+.timeline-item::before{
+  content:"";position:absolute;left:-46px;top:6px;width:14px;height:14px;
+  background:var(--accent);border-radius:50%;box-shadow:0 0 0 4px rgba(50,212,255,.15);
+}
+.timeline-date{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:13px;margin-bottom:8px;}
+.timeline-content{background:var(--panel);border:1px solid var(--line);padding:26px 28px;border-radius:14px;}
+.timeline-content h3{font-size:19px;margin-bottom:4px;}
+.timeline-content h4{font-size:14px;font-weight:400;color:var(--text-dim);margin-bottom:14px;}
+.timeline-content ul{margin:0;padding:0;}
+.timeline-content li{position:relative;padding-left:18px;color:var(--text-dim);margin-bottom:8px;font-size:14.5px;}
+.timeline-content li::before{content:"—";position:absolute;left:0;color:var(--accent-dim);}
+
+/* ---------- ACHIEVEMENTS ---------- */
+.achieve{background:var(--panel-2);}
+.achieve-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:20px;}
+.achieve-item{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px;font-size:14.5px;color:var(--text-dim);display:flex;gap:12px;}
+.achieve-item i{color:var(--accent);margin-top:3px;}
+
+/* ---------- PROJECTS ---------- */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;margin-top:36px;}
+.project{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;transition:.3s;}
+.project:hover{transform:translateY(-8px);box-shadow:0 18px 34px rgba(0,0,0,.35);}
+.project .tag-row{margin-top:16px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:8px;}
+.project .tag-row span{background:rgba(50,212,255,.1);color:var(--accent);padding:5px 12px;border-radius:20px;font-size:12px;font-family:'JetBrains Mono',monospace;}
+.project h3{font-size:18px;margin-bottom:10px;}
+.project p{color:var(--text-dim);font-size:14.5px;}
+
+/* ---------- RESEARCH TAGS ---------- */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+.tag-cloud span{padding:10px 20px;background:var(--panel);border:1px solid var(--line);border-radius:30px;font-size:14px;color:var(--text-dim);}
+
+/* ---------- PUBLICATIONS / DOCUMENTS ---------- */
+.pub-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px;margin-top:24px;}
+.pub-card h3{font-size:18px;margin-bottom:10px;}
+.pub-card p{color:var(--text-dim);font-size:14.5px;}
+.pub-card a{color:var(--accent);font-weight:600;font-size:14px;display:inline-block;margin-top:14px;}
+
+/* ---------- WEB GIS MAP ---------- */
+#map{height:480px;border-radius:16px;overflow:hidden;border:1px solid var(--line);margin-top:30px;}
+
+/* ---------- GALLERY ---------- */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:30px;}
+.gallery-item{
+  height:180px;border-radius:14px;border:1.5px dashed var(--line);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  color:var(--text-dim);font-size:13px;font-family:'JetBrains Mono',monospace;padding:14px;
+}
+.gallery-item.has-img{
+  border:1px solid var(--line);padding:0;overflow:hidden;position:relative;
+  display:block;height:auto;
+}
+.gallery-item.has-img a{display:block;}
+.gallery-item.has-img img{
+  width:100%;height:200px;object-fit:cover;display:block;transition:.3s;
+}
+.gallery-item.has-img:hover img{transform:scale(1.06);}
+.gallery-item.has-img .cap{
+  padding:12px 14px;font-size:13px;color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace;border-top:1px solid var(--line);
+}
+
+/* ---------- CONTACT ---------- */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:36px;}
+.contact-links a{display:flex;align-items:center;gap:14px;margin-bottom:18px;color:var(--text-dim);font-size:15px;transition:.25s;}
+.contact-links a:hover{color:var(--accent);}
+.contact-links i{width:22px;color:var(--accent);}
+form{display:flex;flex-direction:column;gap:16px;}
+input,textarea{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;
+}
+input:focus,textarea:focus{outline:1.5px solid var(--accent);}
+@media(max-width:860px){.contact-grid{grid-template-columns:1fr;}}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--panel-2);padding:56px 8%;text-align:center;border-top:1px solid var(--line);}
+footer h2{font-size:22px;margin-bottom:10px;}
+footer p{color:var(--text-dim);font-size:14px;}
+.social{margin:22px 0;display:flex;justify-content:center;gap:22px;}
+.social a{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.3s;}
+.social a:hover{background:var(--accent);color:#06121d;border-color:var(--accent);}
+.fine-print{margin-top:20px;font-size:12px;color:#5f7885;font-family:'JetBrains Mono',monospace;}
+
+/* ---------- FLOATING BUTTONS ---------- */
+#topBtn,#themeBtn{
+  position:fixed;right:26px;width:48px;height:48px;border:none;border-radius:50%;
+  background:var(--accent);color:#06121d;cursor:pointer;font-size:18px;z-index:998;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+#topBtn{bottom:26px;display:none;}
+#themeBtn{bottom:86px;}
+
+/* ---------- LIGHT MODE ---------- */
+body.light{--bg:#f3f6f9;--panel:#ffffff;--panel-2:#eaeff3;--text:#1a2230;--text-dim:#525c68;--line:rgba(0,0,0,.08);}
+body.light .hero::before{opacity:.4;}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="spinner"></div>
+  <p>LOADING PORTFOLIO…</p>
+</div>
+
+<header>
+  <div class="logo">Ashim <span>Banik</span></div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Work</a>
+    <a href="#skills">Skills</a>
+    <a href="#publications">Publications</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div id="menu-btn"><i class="fas fa-bars"></i></div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h3>&gt; Hello, I'm</h3>
+    <h1>Ashim Banik</h1>
+    <h2>I'm a <span id="typing"></span></h2>
+    <p>Remote Sensing & GIS Specialist with 7+ years of experience in wetland and coastal monitoring, hydrology, satellite image processing, DGPS/drone surveys, and geospatial automation — currently a Junior Research Fellow (GIS) at the Chilika Development Authority, Odisha.</p>
+    <p class="coords">Bhubaneswar, Odisha, India · Chilika Development Authority</p>
+    <div class="buttons">
+      <a href="ashim-banik-cv.pdf" target="_blank" class="btn primary"><i class="fa-solid fa-download"></i> Download CV</a>
+      <a href="#projects" class="btn secondary"><i class="fa-solid fa-briefcase"></i> View Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="container">
+    <div class="grid">
+      <div class="card"><h2 class="counter" data-target="7">0</h2><p>Years Experience</p></div>
+      <div class="card"><h2 class="counter" data-target="20">0</h2><p>GIS &amp; RS Projects</p></div>
+      <div class="card"><h2 class="counter" data-target="1200">0</h2><p>Thematic Maps</p></div>
+      <div class="card"><h2 class="counter" data-target="600">0</h2><p>GB Spatial Data</p></div>
+      <div class="card"><h2 class="counter" data-target="1500">0</h2><p>km² DGPS/GPS Surveyed</p></div>
+      <div class="card"><h2 class="counter" data-target="200">0</h2><p>Professionals Trained</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="container">
+    <span class="section-tag">01 — About</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="portrait"><img src="ashim-photo.jpg" alt="Ashim Banik"></div>
+      <div class="about-text">
+        <p>I'm a Remote Sensing and GIS Specialist currently working as Junior Research Fellow (Remote Sensing & GIS) at the Wetland Research and Training Centre, Chilika Development Authority, Odisha — applying GIS and remote sensing to wetland, coastal, and hydrological studies across Chilika Lagoon, Ansupa Lake, and Tampara Lake.</p>
+        <p>My work integrates satellite data with DGPS (Static & RTK), bathymetric surveys, current meter surveys, drone imagery, and hydrophone data for dolphin monitoring. I'm also a certified Junior Drone Pilot (NSQF Level 3) and have contributed to biodiversity monitoring through 6+ years of annual bird, dolphin, flora, and fauna surveys in Chilika Lagoon.</p>
+        <p>Earlier, I worked as a DGPS/GIS Technician with the Conservator of Forests, Medininagar Working Plan, Jharkhand, on cadastral georeferencing, forest boundary surveys, and forest cover mapping. I've also delivered guest training as a GIS resource person and mentored 200+ students and professionals.</p>
+        <div class="badges">
+          <span>Remote Sensing</span><span>GIS Analysis</span><span>Google Earth Engine</span>
+          <span>ArcGIS Pro</span><span>QGIS</span><span>Python (ArcPy)</span>
+          <span>Drone Survey</span><span>DGPS</span><span>Hydrology</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section class="skills" id="skills">
+  <div class="container">
+    <span class="section-tag">02 — Skills</span>
+    <h2 class="section-title">Technical Skills</h2>
+    <p class="section-lead">Core proficiencies across GIS platforms, remote sensing, programming, and field survey instrumentation.</p>
+    <div class="skill-grid">
+      <div class="skill-card"><div class="skill-top"><h3>GIS &amp; Spatial Analysis</h3><i class="fa-solid fa-map-location-dot"></i></div><div class="progress"><span style="width:95%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Remote Sensing / Image Processing</h3><i class="fa-solid fa-satellite"></i></div><div class="progress"><span style="width:92%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>DGPS &amp; Field Survey</h3><i class="fa-solid fa-location-dot"></i></div><div class="progress"><span style="width:95%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Google Earth Engine</h3><i class="fa-solid fa-earth-asia"></i></div><div class="progress"><span style="width:85%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Drone Survey &amp; Photogrammetry</h3><i class="fa-solid fa-helicopter"></i></div><div class="progress"><span style="width:85%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Python (ArcPy)</h3><i class="fa-brands fa-python"></i></div><div class="progress"><span style="width:78%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Hydrological Modelling</h3><i class="fa-solid fa-water"></i></div><div class="progress"><span style="width:80%"></span></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>R / Statistical Analysis</h3><i class="fa-solid fa-chart-line"></i></div><div class="progress"><span style="width:78%"></span></div></div>
+    </div>
+    <p class="skill-note">// self-assessed proficiency levels</p>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="container">
+    <span class="section-tag">03 — Experience</span>
+    <h2 class="section-title">Professional Experience</h2>
+    <p class="section-lead">Remote Sensing and GIS Specialist with over 7 years of professional experience in spatial analysis, image processing, hydrology applications, and field-based geospatial surveys — delivering industry-grade GIS solutions and supporting decision-making for environmental, water resource, forestry, and planning projects.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">OCTOBER 2020 — PRESENT · SIX YEARS</div>
+        <div class="timeline-content">
+          <h3>Junior Research Fellow (Remote Sensing and GIS)</h3>
+          <h4>Wetland Research and Training Centre, Chilika Development Authority, Odisha</h4>
+          <ul>
+            <li>Conducted advanced GIS and remote sensing analysis for wetland, coastal, and hydrological studies.</li>
+            <li>Integrated satellite data with DGPS, bathymetric, and drone survey data to enhance spatial accuracy.</li>
+            <li>Developed thematic maps and analytical reports to support planning and environmental management.</li>
+            <li>Collaborated with scientists, planners, and technical teams for project execution.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">NOVEMBER 2019 — JUNE 2020 · EIGHT MONTHS</div>
+        <div class="timeline-content">
+          <h3>DGPS / GIS Technician (Remote Sensing and GIS)</h3>
+          <h4>Conservator of Forests, Medininagar Working Plan, Palamo Forest Region, Jharkhand</h4>
+          <ul>
+            <li>Georeferenced cadastral maps and conducted forest boundary surveys through DGPS, including demarcation of pillars and forest pillar posting.</li>
+            <li>Applied instrumental and software knowledge of DGPS (Static and RTK).</li>
+            <li>Applied Remote Sensing and GIS applications to monitoring in the forest area.</li>
+            <li>Produced management/working circle maps, stock maps, forest cover and type maps, resource-assessment sampling, and wetland-in-forest mapping — supporting campa plantation and forest fire monitoring.</li>
+            <li>Maintained an indicative list of layers in the Spatial Database within the GIS Cell.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACHIEVEMENTS ================= -->
+<section class="achieve" id="achievements">
+  <div class="container">
+    <span class="section-tag">04 — Achievements</span>
+    <h2 class="section-title">Selected Achievements</h2>
+    <div class="achieve-grid">
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Contributed to 20+ GIS and remote sensing projects supporting environmental monitoring, hydrology, forestry, and spatial planning.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Analysed and managed 600+ GB of geospatial and satellite datasets for evidence-based decision-making.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Conducted DGPS (Static &amp; RTK) and GPS surveys across 1,500+ km², ensuring sub-meter positional accuracy.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Integrated drone imagery, bathymetric measurements, and in-situ survey data with GIS platforms — reducing validation effort by ~30%.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Produced 1,200+ high-quality thematic maps for planners, researchers, and institutional stakeholders.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Improved hydrology and water-resource interpretation efficiency by 20–25% through GIS-based modelling.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Trained and mentored 200+ students and early-career professionals in GIS and remote sensing.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>Worked on the JICA-funded project in Cuttack (8 months) — household-level surveys under the Central Sanitation Programme for GIS mapping and assessment.</div>
+      <div class="achieve-item"><i class="fa-solid fa-check"></i>6+ years attending Annual Bird, Dolphin, Flora, and Fauna Surveys in Chilika Lagoon, supporting biodiversity monitoring and conservation activities.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="container">
+    <span class="section-tag">05 — Work</span>
+    <h2 class="section-title">Featured Work</h2>
+    <div class="project-grid">
+      <div class="project">
+        <h3>Wetland &amp; Coastal Monitoring — Chilika, Ansupa &amp; Tampara</h3>
+        <p>Ongoing GIS and remote sensing analysis for wetland, coastal, and hydrological studies, integrating satellite imagery with DGPS, bathymetric, current meter, and drone survey data.</p>
+        <div class="tag-row"><span>ArcGIS Pro</span><span>ERDAS Imagine</span><span>GEE</span><span>QGIS</span></div>
+      </div>
+      <div class="project">
+        <h3>Annual Biodiversity Surveys — Chilika Lagoon</h3>
+        <p>6+ years contributing to bird, dolphin, flora, and fauna surveys, including hydrophone data processing for dolphin census and habitat monitoring.</p>
+        <div class="tag-row"><span>Hydrophone Survey</span><span>Field Ecology</span><span>GPS/DGPS</span></div>
+      </div>
+      <div class="project">
+        <h3>Forest Boundary &amp; Cadastral Mapping — Jharkhand</h3>
+        <p>Georeferenced cadastral maps and conducted DGPS-based forest boundary surveys, producing working circle, stock, and forest cover/type maps.</p>
+        <div class="tag-row"><span>DGPS Static/RTK</span><span>Cadastral Mapping</span></div>
+      </div>
+      <div class="project">
+        <h3>Central Sanitation Survey — JICA Project, Cuttack</h3>
+        <p>Eight-month household-level survey collecting toilet availability, waste management, water supply, and sanitation data for GIS mapping and assessment.</p>
+        <div class="tag-row"><span>Survey123</span><span>Household Data</span></div>
+      </div>
+      <div class="project">
+        <h3>Drone-based Survey &amp; Photogrammetry</h3>
+        <p>Certified Junior Drone Pilot (NSQF L3) applying Agisoft Metashape workflows for aerial data acquisition and image processing in field surveys.</p>
+        <div class="tag-row"><span>Drone Survey</span><span>Agisoft Metashape</span></div>
+      </div>
+      <div class="project">
+        <h3>GIS/GPS Capacity-Building Training</h3>
+        <p>Guest resource person for a GPS/GIS-based technology intervention training programme at SITE, Bhubaneswar, for Agriculture Department officers.</p>
+        <div class="tag-row"><span>Training</span><span>Capacity Building</span></div>
+      </div>
+      <div class="project">
+        <h3>Seasonal Water Volume Fluctuations — Chilika Lagoon (2023–2025)</h3>
+        <p>Remote sensing–GIS approach estimating seasonal lagoon volume using MNDWI-derived water extent and bathymetric interpolation (TIN/DBM) in ArcGIS Pro, across summer, monsoon, and winter for 2023–2025.</p>
+        <div class="tag-row"><span>MNDWI</span><span>Landsat 8/9</span><span>Bathymetry</span><span>ArcGIS Pro</span></div>
+        <a href="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:14px; display:inline-block; margin-top:14px;">↓ View Report (PDF)</a>
+      </div>
+      <div class="project">
+        <h3>Block-wise Earthen Gherry Mapping — Puri, Ganjam &amp; Khordha</h3>
+        <p>Multi-year (2021–2026) satellite-based mapping and area quantification of earthen gherries within a 200 m buffer across coastal blocks around Chilika, with plot-level coordinates and change analysis.</p>
+        <div class="tag-row"><span>Change Detection</span><span>GIS Mapping</span><span>Coastal Monitoring</span></div>
+        <a href="Block_wise_Earthern_Gherry.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:14px; display:inline-block; margin-top:14px;">↓ View Report (PDF)</a>
+      </div>
+      <div class="project">
+        <h3>Soil Erosion Modelling using RUSLE in QGIS</h3>
+        <p>Applied the Revised Universal Soil Loss Equation (RUSLE) within QGIS to assess and model soil erosion risk, covering theoretical concepts and step-by-step erosion assessment workflows.</p>
+        <div class="tag-row"><span>RUSLE</span><span>QGIS</span><span>Erosion Modelling</span></div>
+        <a href="Soil_Erosion_Modelling.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:14px; display:inline-block; margin-top:14px;">↓ View Certificate (PDF)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESEARCH INTERESTS ================= -->
+<section id="research" style="background:var(--panel-2);">
+  <div class="container">
+    <span class="section-tag">06 — Research</span>
+    <h2 class="section-title">Research Interests</h2>
+    <div class="tag-cloud">
+      <span>Remote Sensing</span><span>GIS &amp; Spatial Analysis</span><span>Wetland Ecology</span>
+      <span>Coastal &amp; Lagoon Hydrology</span><span>Water Resource Management</span>
+      <span>Biodiversity Monitoring</span><span>Environmental Planning</span>
+      <span>Urban Climate &amp; Land Surface Temperature</span><span>Geospatial Automation</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PUBLICATIONS ================= -->
+<section id="publications">
+  <div class="container">
+    <span class="section-tag">07 — Publications</span>
+    <h2 class="section-title">Research Publications</h2>
+    <div class="pub-card">
+      <h3>Assessing Urban Heat Island Impact and Identifying Vulnerability Zones Through Geospatial and Geo-statistical Techniques</h3>
+      <p>Nandi, D., Sing, D., Banik, A., Mishra, P.S. · International Journal of Conservation Science, Vol. 15, Issue 3, 2024, pp. 1577–1592</p>
+      <a href="https://doi.org/10.36868/IJCS.2024.03.26" target="_blank" rel="noopener">View Publication (DOI: 10.36868/IJCS.2024.03.26) →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EDUCATION & CERTIFICATIONS ================= -->
+<section style="background:var(--panel-2);" id="education">
+  <div class="container">
+    <span class="section-tag">08 — Education &amp; Certifications</span>
+    <h2 class="section-title">Training</h2>
+    <div class="skill-grid">
+      <div class="skill-card"><div class="skill-top"><h3>M.Sc. Remote Sensing &amp; GIS</h3><i class="fa-solid fa-graduation-cap"></i></div><p style="color:var(--text-dim); font-size:13.5px;">North Orissa University, 2019 — First Class (78%)</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>M.A. Geography</h3><i class="fa-solid fa-graduation-cap"></i></div><p style="color:var(--text-dim); font-size:13.5px;">University of Kalyani, 2011 — First Class (65.5%)</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>Drone Pilot (Junior), NSQF L3</h3><i class="fa-solid fa-award"></i></div><p style="color:var(--text-dim); font-size:13.5px;">Directorate General of Training, Govt. of India, 2024</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>Automated Feature Extraction</h3><i class="fa-solid fa-satellite"></i></div><p style="color:var(--text-dim); font-size:13.5px;">IIRS, Indian Space Research Organisation, 2023</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>Advanced GEE for Spatial Analysis</h3><i class="fa-solid fa-earth-asia"></i></div><p style="color:var(--text-dim); font-size:13.5px;">Udemy, 2024</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>ArcPy for Python Developers</h3><i class="fa-brands fa-python"></i></div><p style="color:var(--text-dim); font-size:13.5px;">Udemy, 2024</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>2 &amp; 3D Drone Modeling (Metashape)</h3><i class="fa-solid fa-helicopter"></i></div><p style="color:var(--text-dim); font-size:13.5px;">Udemy, 2024</p></div>
+      <div class="skill-card"><div class="skill-top"><h3>Data Analysis with R / SPSS</h3><i class="fa-solid fa-chart-simple"></i></div><p style="color:var(--text-dim); font-size:13.5px;">Commacad, 2023–2024</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services">
+  <div class="container">
+    <span class="section-tag">09 — Services</span>
+    <h2 class="section-title">What I Can Help With</h2>
+    <div class="skill-grid">
+      <div class="skill-card"><div class="skill-top"><h3>Remote Sensing Analysis</h3><i class="fa-solid fa-earth-asia"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>GIS &amp; Spatial Analysis</h3><i class="fa-solid fa-map"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Hydrological Modelling</h3><i class="fa-solid fa-water"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Drone Survey &amp; Mapping</h3><i class="fa-solid fa-helicopter"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>DGPS Field Survey</h3><i class="fa-solid fa-location-dot"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Python / GIS Automation</h3><i class="fa-solid fa-code"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>Web GIS &amp; Map Publishing</h3><i class="fa-solid fa-globe"></i></div></div>
+      <div class="skill-card"><div class="skill-top"><h3>GIS Training &amp; Capacity Building</h3><i class="fa-solid fa-chalkboard-user"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section id="gallery">
+  <div class="container">
+    <span class="section-tag">11 — Gallery</span>
+    <h2 class="section-title">Field &amp; Project Photos</h2>
+    <p class="section-lead">Satellite imagery and shoreline change layout maps from ongoing Chilika Lagoon monitoring work.</p>
+    <div class="gallery">
+      <div class="gallery-item has-img">
+        <a href="chilika-satellite-2025.jpg" target="_blank">
+          <img src="chilika-satellite-2025.jpg" alt="Revised Satellite Image of Chilika Lagoon 2025">
+          <div class="cap">Revised Satellite Image — Chilika Lagoon, 2025</div>
+        </a>
+      </div>
+      <div class="gallery-item has-img">
+        <a href="epr-layout-map.jpg" target="_blank">
+          <img src="epr-layout-map.jpg" alt="EPR Layout Map">
+          <div class="cap">EPR (End Point Rate) — Layout Map</div>
+        </a>
+      </div>
+      <div class="gallery-item has-img">
+        <a href="lrr-layout-map.jpg" target="_blank">
+          <img src="lrr-layout-map.jpg" alt="LRR Layout Map">
+          <div class="cap">LRR (Linear Regression Rate) — Layout Map</div>
+        </a>
+      </div>
+      <div class="gallery-item has-img">
+        <a href="nsm-layout-map.jpg" target="_blank">
+          <img src="nsm-layout-map.jpg" alt="NSM Layout Map">
+          <div class="cap">NSM (Net Shoreline Movement) — Layout Map</div>
+        </a>
+      </div>
+      <div class="gallery-item has-img">
+        <a href="wlr-layout-map.jpg" target="_blank">
+          <img src="wlr-layout-map.jpg" alt="WLR Layout Map">
+          <div class="cap">WLR (Weighted Linear Regression) — Layout Map</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOCUMENTS ================= -->
+<section id="documents" style="background:var(--panel-2);">
+  <div class="container">
+    <span class="section-tag">12 — Documents</span>
+    <h2 class="section-title">CV &amp; Documents</h2>
+    <div class="pub-card">
+      <h3>Full CV, Cover Letter &amp; Certificates (PDF)</h3>
+      <p>Includes professional experience, education, certifications, and training records.</p>
+      <a href="ashim-banik-cv.pdf" target="_blank">↓ Download PDF</a>
+    </div>
+
+    <h3 style="margin-top:40px; margin-bottom:18px; font-size:18px;">Certificates &amp; Training Records</h3>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <div class="skill-top"><h3>Drone Pilot (Junior) NSQF L3 — Certificate</h3><i class="fa-solid fa-award"></i></div>
+        <a href="Drone_Certificate.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Drone Pilot — Result / Mark Sheet</h3><i class="fa-solid fa-file-lines"></i></div>
+        <a href="Drone_Result.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>ISRO/IIRS — Automated Feature Extraction</h3><i class="fa-solid fa-satellite"></i></div>
+        <a href="ISRO_Automated_Feature_Extraction_from_High_Resoluation_Images.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Advanced Google Earth Engine (GEE)</h3><i class="fa-solid fa-earth-asia"></i></div>
+        <a href="Advanced_Google_Earth_Engine.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>ArcPy for Python Developers (ArcGIS Pro)</h3><i class="fa-brands fa-python"></i></div>
+        <a href="Arcpy_for_Python_Developers_using_ArcGIS_Pro.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>2 &amp; 3D Drone Modeling — Agisoft Metashape</h3><i class="fa-solid fa-helicopter"></i></div>
+        <a href="Drone_2D___3D_Modeling_Agisoft_Metashape.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Rainfall Indices for MCDM Models in ArcGIS</h3><i class="fa-solid fa-cloud-rain"></i></div>
+        <a href="Rainfall_Indices_for_MCD.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Data Analysis with R Programming</h3><i class="fa-solid fa-chart-simple"></i></div>
+        <a href="R_Programming_Certificate.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Data Analysis with SPSS</h3><i class="fa-solid fa-chart-simple"></i></div>
+        <a href="Data_Analysis_By_SPSS_Certificate.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Soil Erosion Modelling (RUSLE in QGIS)</h3><i class="fa-solid fa-mountain"></i></div>
+        <a href="Soil_Erosion_Modelling.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>AI Smart Prompts Mastery</h3><i class="fa-solid fa-robot"></i></div>
+        <a href="certificate_of_CHATGPT.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Ultimate ChatGPT Prompts Pack</h3><i class="fa-solid fa-robot"></i></div>
+        <a href="CHAT_GPT_7_certificate.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+    </div>
+
+    <h3 style="margin-top:40px; margin-bottom:18px; font-size:18px;">Research &amp; Project Reports</h3>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <div class="skill-top"><h3>Seasonal Water Volume Fluctuations — Chilika (2023–2025)</h3><i class="fa-solid fa-water"></i></div>
+        <a href="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Block-wise Earthen Gherry — Puri, Ganjam, Khordha</h3><i class="fa-solid fa-map"></i></div>
+        <a href="Block_wise_Earthern_Gherry.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><h3>Chilika Lake — Integrated Management Plan 2025–2030</h3><i class="fa-solid fa-file-lines"></i></div>
+        <a href="IMP_Chilika_lake_2025-2030__28_10_2025.pdf" target="_blank" style="color:var(--accent); font-weight:600; font-size:13.5px;">↓ View PDF</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="container">
+    <span class="section-tag">13 — Contact</span>
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-links">
+        <a href="mailto:ashim2588@gmail.com"><i class="fa-solid fa-envelope"></i> ashim2588@gmail.com</a>
+        <a href="tel:+919681999958"><i class="fa-solid fa-phone"></i> +91 96819 99958</a>
+        <a href="https://www.linkedin.com/in/ashim-banik-595595210/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <a href="https://orcid.org/0009-0004-7565-8859" target="_blank" rel="noopener"><i class="fa-brands fa-orcid"></i> ORCID</a>
+        <a href="#"><i class="fa-solid fa-location-dot"></i> Bhubaneswar, Odisha, India</a>
+      </div>
+      <form action="mailto:ashim2588@gmail.com" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="subject" placeholder="Subject">
+        <textarea rows="5" name="message" placeholder="Message" required></textarea>
+        <button type="submit" class="btn primary" style="border:none;cursor:pointer;">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <h2>Ashim Banik</h2>
+    <p>Remote Sensing · GIS · Wetland &amp; Coastal Hydrology · Drone Survey</p>
+    <div class="social">
+      <a href="https://www.linkedin.com/in/ashim-banik-595595210/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="https://orcid.org/0009-0004-7565-8859" target="_blank" rel="noopener"><i class="fa-brands fa-orcid"></i></a>
+      <a href="mailto:ashim2588@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+    <p class="fine-print">© 2026 Ashim Banik. All rights reserved. Built with HTML.</p>
+  </div>
+</footer>
+
+<button id="topBtn" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+<button id="themeBtn" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+
+<script>
+// Loader
+window.addEventListener('load', function(){
+  var loader = document.getElementById('loader');
+  loader.style.opacity = '0';
+  setTimeout(function(){ loader.style.display = 'none'; }, 500);
+});
+
+// Typing effect
+const words = [
+  "Remote Sensing & GIS Specialist",
+  "Water Hydrology Specialist",
+  "Cartographer & Trainer",
+  "Data Analyst"
+];
+let wi = 0, ci = 0, deleting = false;
+function type(){
+  const current = words[wi];
+  const el = document.getElementById('typing');
+  if(!el) return;
+  el.textContent = current.substring(0, ci);
+  if(!deleting){
+    if(ci < current.length){ ci++; setTimeout(type, 70); }
+    else { deleting = true; setTimeout(type, 1400); }
+  } else {
+    if(ci > 0){ ci--; setTimeout(type, 35); }
+    else { deleting = false; wi = (wi + 1) % words.length; setTimeout(type, 300); }
+  }
+}
+type();
+
+// Animated counters (trigger on scroll into view)
+const counters = document.querySelectorAll('.counter');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const counter = entry.target;
+      const target = +counter.getAttribute('data-target');
+      let c = 0;
+      const inc = Math.max(target / 100, 1);
+      const update = () => {
+        c += inc;
+        if(c < target){ counter.textContent = Math.ceil(c); requestAnimationFrame(update); }
+        else { counter.textContent = target; }
+      };
+      update();
+      counterObserver.unobserve(counter);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+// Back to top button
+const topBtn = document.getElementById('topBtn');
+window.addEventListener('scroll', () => {
+  topBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
+});
+topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// Theme toggle
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const icon = themeBtn.querySelector('i');
+  icon.classList.toggle('fa-moon');
+  icon.classList.toggle('fa-sun');
+});
+
+// Mobile nav
+const menuBtn = document.getElementById('menu-btn');
+const navEl = document.querySelector('nav');
+menuBtn.addEventListener('click', () => navEl.classList.toggle('show'));
+navEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navEl.classList.remove('show')));
+</script>
+</body>
+</html>
