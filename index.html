@@ -528,6 +528,169 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
 #videoModal video{width:100%;max-height:80vh;border-radius:12px;border:1px solid var(--glass-border);background:#000;}
 #videoModal .vm-close{position:absolute;top:26px;right:34px;font-size:28px;color:#fff;width:44px;height:44px;
   display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.08);cursor:pointer;}
+
+/* ============================================================
+   21. ADD-CARD / UPLOAD BUTTON
+   ============================================================ */
+.sec-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:24px;}
+.add-card-btn{
+  font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  padding:12px 22px;border-radius:30px;border:1px dashed var(--glass-border);color:var(--emerald);
+  display:inline-flex;align-items:center;gap:8px;transition:.25s;background:var(--glass);white-space:nowrap;
+}
+.add-card-btn:hover{border-color:var(--emerald);border-style:solid;transform:translateY(-2px);}
+
+/* ============================================================
+   22. MODALS (shared)
+   ============================================================ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(4,10,15,.86);backdrop-filter:blur(8px);z-index:10000;
+  display:none;align-items:center;justify-content:center;padding:5vh 5vw;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{width:min(560px,100%);max-height:88vh;overflow-y:auto;padding:34px;position:relative;}
+.modal-box h3{font-size:19px;margin-bottom:6px;}
+.modal-box .modal-sub{font-size:12.5px;color:var(--ink-faint);margin-bottom:22px;}
+.modal-box .m-close{position:absolute;top:18px;right:18px;font-size:20px;width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--glass);cursor:pointer;color:var(--ink-dim);}
+.modal-box .m-close:hover{color:var(--emerald);}
+.m-field{margin-bottom:14px;}
+.m-field label{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin-bottom:7px;}
+.m-field input[type=text],.m-field input[type=url],.m-field select,.m-field textarea{
+  width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);color:var(--ink);
+  padding:12px 14px;border-radius:10px;font-family:var(--body);font-size:13.5px;
+}
+[data-theme="light"] .m-field input,[data-theme="light"] .m-field select,[data-theme="light"] .m-field textarea{background:rgba(10,30,40,.04);}
+.m-field input:focus,.m-field select:focus,.m-field textarea:focus{border-color:var(--emerald);outline:none;}
+.m-field input[type=file]{
+  width:100%;padding:22px 14px;border:1.5px dashed var(--glass-border);border-radius:10px;
+  background:rgba(255,255,255,.03);font-size:12.5px;color:var(--ink-dim);
+}
+.m-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.m-hint{font-size:11.5px;color:var(--ink-faint);margin-top:16px;line-height:1.6;padding:12px 14px;border-radius:10px;background:rgba(61,220,151,.06);border:1px solid rgba(61,220,151,.18);}
+.m-hint code{font-family:var(--mono);color:var(--emerald);}
+.m-actions{display:flex;gap:12px;margin-top:22px;}
+.m-actions .btn{flex:1;justify-content:center;border:none;}
+.m-json{
+  margin-top:16px;background:#04150f;border:1px solid var(--glass-border);border-radius:10px;padding:14px 16px;
+  font-family:var(--mono);font-size:11.5px;color:#8be6c3;white-space:pre-wrap;word-break:break-all;max-height:180px;overflow-y:auto;display:none;
+}
+.m-json.show{display:block;}
+.m-copy{margin-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--azure);cursor:pointer;display:none;align-items:center;gap:6px;}
+.m-copy.show{display:inline-flex;}
+.preview-thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.preview-thumbs img,.preview-thumbs video{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--glass-border);}
+
+/* ============================================================
+   23. CARD RELATED-LINKS ROW (cross-linking)
+   ============================================================ */
+.related-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+.related-row a{
+  font-family:var(--mono);font-size:11px;color:var(--ink-dim);display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-border);transition:.2s;
+}
+.related-row a:hover{color:var(--emerald);border-color:var(--emerald);}
+.related-row a i{color:var(--emerald);}
+
+/* ============================================================
+   24. PDF VIEWER MODAL
+   ============================================================ */
+#pdfModal{position:fixed;inset:0;background:rgba(4,10,15,.94);backdrop-filter:blur(8px);z-index:9999;display:none;align-items:center;justify-content:center;padding:4vh 4vw;}
+#pdfModal.open{display:flex;}
+#pdfModal .pdf-inner{width:min(1000px,100%);height:90vh;background:var(--bg-2);border-radius:14px;overflow:hidden;position:relative;border:1px solid var(--glass-border);}
+#pdfModal iframe{width:100%;height:100%;border:0;background:#fff;}
+#pdfModal .pdf-close{position:absolute;top:16px;right:16px;font-size:22px;color:#fff;width:42px;height:42px;z-index:2;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,.5);cursor:pointer;}
+
+/* ============================================================
+   25. LIGHTBOX ZOOM CONTROLS + NAV
+   ============================================================ */
+#lightbox{flex-direction:column;gap:14px;}
+#lightbox .lb-stage{position:relative;max-width:100%;max-height:78vh;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:grab;}
+#lightbox .lb-stage.dragging{cursor:grabbing;}
+#lightbox img{max-width:100%;max-height:78vh;border-radius:12px;border:1px solid var(--glass-border);transition:transform .15s ease;transform-origin:center center;user-select:none;}
+#lightbox .lb-toolbar{display:flex;gap:10px;align-items:center;}
+#lightbox .lb-toolbar button{
+  width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:15px;transition:.2s;
+}
+#lightbox .lb-toolbar button:hover{background:var(--emerald);color:#04150f;}
+#lightbox .lb-cap{color:#fff;font-family:var(--mono);font-size:12.5px;text-align:center;max-width:80vw;}
+#lightbox .lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.08);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:2;}
+#lightbox .lb-nav:hover{background:var(--emerald);color:#04150f;}
+#lightbox .lb-prev{left:14px;}
+#lightbox .lb-next{right:14px;}
+@media(max-width:700px){#lightbox .lb-nav{display:none;}}
+
+/* ============================================================
+   26. GEE APP SIDEBAR RIBBON + SECTION
+   ============================================================ */
+#geeRibbon{
+  position:fixed;right:0;top:52%;transform:translateY(-50%) rotate(0deg);z-index:500;
+  display:flex;align-items:center;gap:10px;padding:14px 18px 14px 22px;border-radius:14px 0 0 14px;
+  background:linear-gradient(135deg,var(--emerald),var(--azure));color:#04150f;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;letter-spacing:.03em;box-shadow:-6px 6px 24px rgba(0,0,0,.25);
+  transition:.3s;
+}
+#geeRibbon:hover{padding-right:26px;}
+#geeRibbon i{font-size:15px;}
+@media(max-width:700px){#geeRibbon{padding:11px 14px 11px 16px;font-size:11px;}#geeRibbon span{display:none;}}
+
+.gee-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.gee-card{padding:26px 24px;transition:.3s;}
+.gee-card:hover{transform:translateY(-5px);border-color:var(--emerald);}
+.gee-card i.gee-icon{font-size:26px;color:var(--emerald);margin-bottom:14px;display:block;}
+.gee-card h3{font-size:16px;margin-bottom:8px;}
+.gee-card p{font-size:13px;color:var(--ink-dim);margin-bottom:14px;}
+.gee-card a{font-family:var(--mono);font-size:11.5px;color:var(--emerald);display:inline-flex;align-items:center;gap:6px;}
+.gee-card a:hover{text-decoration:underline;}
+
+/* ============================================================
+   27. TRIMMED CARD TEXT
+   ============================================================ */
+.proj-body p.oneline{font-size:13px;color:var(--ink-dim);margin-bottom:12px;}
+
+/* ============================================================
+   28. DELETE BUTTON (on any addable/removable card)
+   ============================================================ */
+.can-delete{position:relative;}
+.del-btn{
+  position:absolute;top:10px;right:10px;z-index:3;width:28px;height:28px;border-radius:50%;
+  background:rgba(0,0,0,.45);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:12px;opacity:0;transition:.2s;cursor:pointer;
+}
+.can-delete:hover .del-btn{opacity:1;}
+.del-btn:hover{background:#e5484d;transform:scale(1.08);}
+.gal-item .del-btn,.video-card .del-btn{top:8px;right:8px;}
+.doc-card.can-delete,.pub-card.can-delete,.gee-card.can-delete{padding-right:22px;}
+
+/* ============================================================
+   29. MATCHING-THEME DROPDOWNS
+   ============================================================ */
+.m-field select{
+  appearance:none;-webkit-appearance:none;
+  background-color:var(--bg-2);color:var(--ink);
+  background-image:linear-gradient(45deg, transparent 50%, var(--emerald) 50%), linear-gradient(135deg, var(--emerald) 50%, transparent 50%);
+  background-position:calc(100% - 20px) calc(50% - 3px), calc(100% - 14px) calc(50% - 3px);
+  background-size:6px 6px, 6px 6px;background-repeat:no-repeat;padding-right:40px;
+}
+.m-field select option{background-color:var(--bg-2);color:var(--ink);}
+
+/* ============================================================
+   30. TECHNICAL COMPETENCIES — CROSS-LINK BAR
+   ============================================================ */
+.tc-links{margin-top:28px;}
+.tc-links .related-row{border-top:1px solid var(--line);padding-top:20px;justify-content:flex-start;}
+
+/* ============================================================
+   31. GEE — LINKED PROJECT CHIP
+   ============================================================ */
+.gee-linked{
+  font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);display:inline-flex;align-items:center;gap:6px;
+  margin-bottom:10px;padding:4px 10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);
+}
+.gee-linked i{color:var(--azure);}
 </style>
 </head>
 <body>
@@ -548,6 +711,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
     <a href="#skills">Skills</a>
     <a href="#experience">Experience</a>
     <a href="#projects">Projects</a>
+    <a href="#gee-apps">GEE Apps</a>
     <a href="#certificates">Certificates</a>
     <a href="#gallery">Gallery</a>
     <a href="#videos">Videos</a>
@@ -559,6 +723,10 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
     <button id="menuBtn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
   </div>
 </header>
+
+<a href="#gee-apps" id="geeRibbon" aria-label="View live Google Earth Engine apps">
+  <i class="fa-solid fa-earth-asia"></i><span>Live GEE Apps</span>
+</a>
 
 <main id="main">
 <section class="hero" id="top">
@@ -722,6 +890,16 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         </div>
       </div>
     </div>
+
+    <div class="tc-links reveal">
+      <div class="related-row">
+        <a href="#certificates"><i class="fa-solid fa-award"></i> Certificate Gallery</a>
+        <a href="#projects"><i class="fa-solid fa-diagram-project"></i> Projects &amp; Technical Reports</a>
+        <a href="#documents"><i class="fa-solid fa-file-lines"></i> PDF Document Library</a>
+        <a href="#gallery"><i class="fa-solid fa-image"></i> Image Gallery</a>
+        <a href="#videos"><i class="fa-solid fa-video"></i> Video Gallery</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -764,167 +942,297 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
   </div>
 </section>
 
-<!-- ================= PROJECTS ================= -->
+<!-- ================= PROJECTS + TECHNICAL REPORTS (merged) ================= -->
 <section id="projects">
   <div class="container">
     <div class="sec-head reveal">
       <div class="eyebrow">04 · Featured Work</div>
-      <h2 class="sec-title">Projects</h2>
-      <p class="sec-lead">Selected fieldwork and analysis spanning wetlands, coastlines, forests, and communities.</p>
+      <h2 class="sec-title">Projects &amp; Technical Reports</h2>
+      <p class="sec-lead">Fieldwork, analysis, and reports — new work added regularly.</p>
     </div>
-    <div class="filter-bar reveal">
-      <button class="filter-btn glass active" data-filter="all">All</button>
-      <button class="filter-btn glass" data-filter="wetland">Wetland &amp; Hydrology</button>
-      <button class="filter-btn glass" data-filter="survey">Field Survey</button>
-      <button class="filter-btn glass" data-filter="drone">Drone</button>
-      <button class="filter-btn glass" data-filter="training">Training</button>
+    <div class="sec-toolbar reveal">
+      <div class="filter-bar" style="margin-bottom:0;">
+        <button class="filter-btn glass active" data-filter="all">All</button>
+        <button class="filter-btn glass" data-filter="wetland">Wetland &amp; Hydrology</button>
+        <button class="filter-btn glass" data-filter="survey">Field Survey</button>
+        <button class="filter-btn glass" data-filter="drone">Drone</button>
+        <button class="filter-btn glass" data-filter="training">Training</button>
+        <button class="filter-btn glass" data-filter="report">Reports</button>
+      </div>
+      <button class="add-card-btn glass" id="openAddProject"><i class="fa-solid fa-plus"></i> Add Project / Report</button>
     </div>
     <div class="proj-grid reveal" id="projGrid">
-      <div class="proj-card glass show" data-cat="wetland">
+      <div class="proj-card glass show can-delete" data-cat="wetland"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-water"></i></div>
         <div class="proj-body">
           <h3>Wetland &amp; Coastal Monitoring — Chilika, Ansupa &amp; Tampara</h3>
-          <p>Ongoing GIS and remote sensing analysis for wetland, coastal, and hydrological studies, integrating satellite imagery with DGPS, bathymetric, current meter, and drone survey data.</p>
+          <p class="oneline">Satellite, DGPS, bathymetric &amp; drone data integration.</p>
           <div class="tag-row"><span>ArcGIS Pro</span><span>ERDAS Imagine</span><span>GEE</span><span>QGIS</span></div>
+          <div class="related-row">
+            <a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|gis"><i class="fa-solid fa-image"></i> Gallery</a>
+            <a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|rsgis"><i class="fa-solid fa-video"></i> Videos</a>
+          </div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="survey">
+      <div class="proj-card glass show can-delete" data-cat="survey"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-dove"></i></div>
         <div class="proj-body">
           <h3>Annual Biodiversity Surveys — Chilika Lagoon</h3>
-          <p>6+ years contributing to bird, dolphin, flora, and fauna surveys, including hydrophone data processing for dolphin census and habitat monitoring.</p>
-          <div class="tag-row"><span>Hydrophone Survey</span><span>Field Ecology</span><span>GPS/DGPS</span></div>
+          <p class="oneline">6+ years of bird, dolphin &amp; habitat monitoring.</p>
+          <div class="tag-row"><span>Hydrophone</span><span>Field Ecology</span><span>DGPS</span></div>
+          <div class="related-row">
+            <a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|others"><i class="fa-solid fa-video"></i> Videos</a>
+          </div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="survey">
+      <div class="proj-card glass show can-delete" data-cat="survey"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-map-location-dot"></i></div>
         <div class="proj-body">
           <h3>Forest Boundary &amp; Cadastral Mapping — Jharkhand</h3>
-          <p>Georeferenced cadastral maps and conducted DGPS-based forest boundary surveys, producing working circle, stock, and forest cover/type maps.</p>
-          <div class="tag-row"><span>DGPS Static/RTK</span><span>Cadastral Mapping</span></div>
+          <p class="oneline">DGPS-based boundary &amp; forest cover mapping.</p>
+          <div class="tag-row"><span>DGPS Static/RTK</span><span>Cadastral</span></div>
+          <div class="related-row">
+            <a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|dgps"><i class="fa-solid fa-image"></i> Gallery</a>
+          </div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="survey">
+      <div class="proj-card glass show can-delete" data-cat="survey"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-house-chimney-window"></i></div>
         <div class="proj-body">
           <h3>Central Sanitation Survey — JICA Project, Cuttack</h3>
-          <p>Eight-month household-level survey collecting toilet availability, waste management, water supply, and sanitation data for GIS mapping and assessment.</p>
+          <p class="oneline">Household-level sanitation &amp; water-supply GIS survey.</p>
           <div class="tag-row"><span>Survey123</span><span>Household Data</span></div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="drone">
+      <div class="proj-card glass show can-delete" data-cat="drone"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-helicopter"></i></div>
         <div class="proj-body">
           <h3>Drone-based Survey &amp; Photogrammetry</h3>
-          <p>Certified Junior Drone Pilot (NSQF L3) applying Agisoft Metashape workflows for aerial data acquisition and image processing in field surveys.</p>
+          <p class="oneline">NSQF L3 certified aerial mapping with Agisoft Metashape.</p>
           <div class="tag-row"><span>Drone Survey</span><span>Agisoft Metashape</span></div>
+          <div class="related-row">
+            <a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|drone"><i class="fa-solid fa-image"></i> Gallery</a>
+            <a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|drone"><i class="fa-solid fa-video"></i> Videos</a>
+          </div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="training">
+      <div class="proj-card glass show can-delete" data-cat="training"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-chalkboard-user"></i></div>
         <div class="proj-body">
           <h3>GIS/GPS Capacity-Building Training</h3>
-          <p>Guest resource person for a GPS/GIS-based technology intervention training programme, mentoring 200+ students and professionals.</p>
+          <p class="oneline">200+ students &amp; professionals trained.</p>
           <div class="tag-row"><span>Training</span><span>Capacity Building</span></div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="wetland">
+      <div class="proj-card glass show can-delete" data-cat="wetland report" data-pdf="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-chart-area"></i></div>
         <div class="proj-body">
           <h3>Seasonal Water Volume Fluctuations — Chilika Lagoon (2023–2025)</h3>
-          <p>Remote sensing–GIS approach estimating seasonal lagoon volume using MNDWI-derived water extent and bathymetric interpolation (TIN/DBM) in ArcGIS Pro.</p>
+          <p class="oneline">MNDWI-derived water extent &amp; bathymetric interpolation.</p>
           <div class="tag-row"><span>MNDWI</span><span>Landsat 8/9</span><span>Bathymetry</span></div>
-          <a href="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf" target="_blank" class="proj-link">↓ View Report</a>
+          <div class="related-row">
+            <a href="javascript:void(0)" class="pdf-open" data-pdf="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
+            <a href="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf" download><i class="fa-solid fa-download"></i> Download</a>
+          </div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="wetland">
+      <div class="proj-card glass show can-delete" data-cat="wetland report"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-map"></i></div>
         <div class="proj-body">
           <h3>Block-wise Earthen Gherry Mapping — Puri, Ganjam &amp; Khordha</h3>
-          <p>Multi-year (2021–2026) satellite-based mapping and area quantification of earthen gherries within a 200m buffer across coastal blocks around Chilika.</p>
+          <p class="oneline">2021–2026 change detection across coastal blocks.</p>
           <div class="tag-row"><span>Change Detection</span><span>GIS Mapping</span></div>
-          <a href="Block_wise_Earthern_Gherry.pdf" target="_blank" class="proj-link">↓ View Report</a>
+          <div class="related-row">
+            <a href="javascript:void(0)" class="pdf-open" data-pdf="Block_wise_Earthern_Gherry.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
+            <a href="Block_wise_Earthern_Gherry.pdf" download><i class="fa-solid fa-download"></i> Download</a>
+          </div>
         </div>
       </div>
-      <div class="proj-card glass show" data-cat="wetland">
+      <div class="proj-card glass show can-delete" data-cat="wetland report"><i class="fa-solid fa-xmark del-btn"></i>
         <div class="proj-thumb"><i class="fa-solid fa-mountain"></i></div>
         <div class="proj-body">
           <h3>Soil Erosion Modelling using RUSLE in QGIS</h3>
-          <p>Applied the Revised Universal Soil Loss Equation (RUSLE) within QGIS to assess and model soil erosion risk across a catchment area.</p>
+          <p class="oneline">Catchment-scale soil erosion risk modelling.</p>
           <div class="tag-row"><span>RUSLE</span><span>QGIS</span></div>
-          <a href="Soil_Erosion_Modelling.pdf" target="_blank" class="proj-link">↓ View Certificate</a>
+          <div class="related-row">
+            <a href="javascript:void(0)" class="pdf-open" data-pdf="Soil_Erosion_Modelling.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
+            <a href="Soil_Erosion_Modelling.pdf" download><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card glass show can-delete" data-cat="wetland report"><i class="fa-solid fa-xmark del-btn"></i>
+        <div class="proj-thumb"><i class="fa-solid fa-file-lines"></i></div>
+        <div class="proj-body">
+          <h3>Chilika Lake — Integrated Management Plan 2025–2030</h3>
+          <p class="oneline">Lagoon-wide management &amp; planning document.</p>
+          <div class="tag-row"><span>Management Plan</span></div>
+          <div class="related-row">
+            <a href="javascript:void(0)" class="pdf-open" data-pdf="IMP_Chilika_lake_2025-2030__28_10_2025.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
+            <a href="IMP_Chilika_lake_2025-2030__28_10_2025.pdf" download><i class="fa-solid fa-download"></i> Download</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ===== Add Project / Report Modal ===== -->
+<div class="modal-overlay" id="addProjectModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addProjectModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Project / Report</h3>
+    <p class="modal-sub">Fill this in, then drop your PDF/thumbnail into your project folder and paste the generated snippet into <code>assets/projects/projects.json</code>. The card also previews live below, right now, in this session.</p>
+    <form id="addProjectForm">
+      <div class="m-field"><label>Title</label><input type="text" id="apTitle" required placeholder="e.g. Mangrove Cover Change — Rambha Bay"></div>
+      <div class="m-field"><label>One-line description</label><input type="text" id="apDesc" placeholder="Short, single-line summary"></div>
+      <div class="m-row2">
+        <div class="m-field"><label>Category</label>
+          <select id="apCat">
+            <option value="wetland">Wetland &amp; Hydrology</option>
+            <option value="survey">Field Survey</option>
+            <option value="drone">Drone</option>
+            <option value="training">Training</option>
+            <option value="report">Report</option>
+          </select>
+        </div>
+        <div class="m-field"><label>Tags (comma separated)</label><input type="text" id="apTags" placeholder="QGIS, DSAS"></div>
+      </div>
+      <div class="m-field"><label>PDF filename (optional)</label><input type="text" id="apPdf" placeholder="my-report.pdf"></div>
+      <div class="m-field"><label>Thumbnail / cover image (optional)</label><input type="file" id="apImg" accept="image/*"></div>
+      <div class="m-actions">
+        <button type="submit" class="btn primary">Add &amp; Preview Card</button>
+      </div>
+      <div class="m-json" id="apJsonOut"></div>
+      <div class="m-copy" id="apCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+      <div class="m-hint">Static GitHub Pages sites can't accept live file uploads from visitors — this is your own editing tool. It writes the card instantly to this page and gives you the exact JSON line to save permanently in <code>projects.json</code>.</div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== PDF Viewer Modal ===== -->
+<div id="pdfModal"><span class="pdf-close" id="pdfClose"><i class="fa-solid fa-xmark"></i></span><div class="pdf-inner"><iframe id="pdfFrame" src=""></iframe></div></div>
 
 <!-- ================= PUBLICATIONS ================= -->
 <section id="publications">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">05 · Research</div>
-      <h2 class="sec-title">Publications &amp; Reports</h2>
+    <div class="sec-toolbar reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <div class="eyebrow">05 · Research</div>
+        <h2 class="sec-title">Publications &amp; Reports</h2>
+        <p class="sec-lead">Peer-reviewed work — full technical reports live in Projects &amp; Reports above.</p>
+      </div>
+      <button class="add-card-btn glass" id="openAddPub"><i class="fa-solid fa-plus"></i> Add Publication</button>
     </div>
-    <div class="pub-card glass reveal">
-      <h3>Assessing Urban Heat Island Impact and Identifying Vulnerability Zones Through Geospatial and Geo-statistical Techniques</h3>
-      <div class="meta">Nandi, D., Sing, D., Banik, A., Mishra, P.S. · International Journal of Conservation Science, Vol. 15, Issue 3, 2024, pp. 1577–1592</div>
-      <a href="https://doi.org/10.36868/IJCS.2024.03.26" target="_blank" rel="noopener">View Publication (DOI: 10.36868/IJCS.2024.03.26) →</a>
-    </div>
-
-    <h3 style="margin-top:40px;margin-bottom:20px;font-size:16px;" class="reveal">Project &amp; Technical Reports</h3>
-    <div class="card-grid reveal">
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-water"></i><h4>Seasonal Water Volume Fluctuations — Chilika (2023–2025)</h4></div><a href="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-map"></i><h4>Block-wise Earthen Gherry — Puri, Ganjam, Khordha</h4></div><a href="Block_wise_Earthern_Gherry.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-file-lines"></i><h4>Chilika Lake — Integrated Management Plan 2025–2030</h4></div><a href="IMP_Chilika_lake_2025-2030__28_10_2025.pdf" target="_blank">↓ View PDF</a></div>
+    <div id="pubGrid">
+      <div class="pub-card glass reveal can-delete"><i class="fa-solid fa-xmark del-btn"></i>
+        <h3>Assessing Urban Heat Island Impact and Identifying Vulnerability Zones Through Geospatial and Geo-statistical Techniques</h3>
+        <div class="meta">Nandi, D., Sing, D., Banik, A., Mishra, P.S. · International Journal of Conservation Science, Vol. 15, Issue 3, 2024, pp. 1577–1592</div>
+        <div class="related-row" style="border-top:none;padding-top:0;margin-top:10px;">
+          <a href="https://doi.org/10.36868/IJCS.2024.03.26" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Online Link (DOI)</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ===== Add Publication Modal ===== -->
+<div class="modal-overlay" id="addPubModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addPubModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Publication</h3>
+    <p class="modal-sub">Previews instantly below. Save it permanently by adding the generated line to <code>assets/publications/publications.json</code>.</p>
+    <form id="addPubForm">
+      <div class="m-field"><label>Title</label><input type="text" id="pubTitle" required></div>
+      <div class="m-field"><label>Authors &amp; citation</label><input type="text" id="pubMeta" placeholder="Authors · Journal, Vol, Year, pp."></div>
+      <div class="m-field"><label>Online link (DOI / URL)</label><input type="url" id="pubLink" placeholder="https://doi.org/..."></div>
+      <div class="m-field"><label>PDF filename (optional)</label><input type="text" id="pubPdf" placeholder="my-publication.pdf"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Add &amp; Preview</button></div>
+      <div class="m-json" id="pubJsonOut"></div>
+      <div class="m-copy" id="pubCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+    </form>
+  </div>
+</div>
 
 <!-- ================= CERTIFICATES ================= -->
 <section id="certificates">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">06 · Certificates &amp; Training</div>
-      <h2 class="sec-title">Certificate Gallery</h2>
+    <div class="sec-toolbar reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <div class="eyebrow">06 · Certificates &amp; Training</div>
+        <h2 class="sec-title">Certificate Gallery</h2>
+      </div>
+      <button class="add-card-btn glass" id="openAddCert"><i class="fa-solid fa-plus"></i> Add Certificate</button>
     </div>
-    <div class="card-grid reveal">
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-award"></i><h4>Drone Pilot (Junior) NSQF L3</h4></div><a href="Drone_Certificate.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-file-lines"></i><h4>Drone Pilot — Result / Mark Sheet</h4></div><a href="Drone_Result.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-satellite"></i><h4>ISRO/IIRS — Automated Feature Extraction</h4></div><a href="ISRO_Automated_Feature_Extraction_from_High_Resoluation_Images.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-earth-asia"></i><h4>Advanced Google Earth Engine (GEE)</h4></div><a href="Advanced_Google_Earth_Engine.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-brands fa-python"></i><h4>ArcPy for Python Developers</h4></div><a href="Arcpy_for_Python_Developers_using_ArcGIS_Pro.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-cube"></i><h4>2 &amp; 3D Drone Modeling — Agisoft Metashape</h4></div><a href="Drone_2D___3D_Modeling_Agisoft_Metashape.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-cloud-rain"></i><h4>Rainfall Indices for MCDM Models</h4></div><a href="Rainfall_Indices_for_MCD.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-chart-simple"></i><h4>Data Analysis with R Programming</h4></div><a href="R_Programming_Certificate.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-chart-simple"></i><h4>Data Analysis with SPSS</h4></div><a href="Data_Analysis_By_SPSS_Certificate.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-mountain"></i><h4>Soil Erosion Modelling (RUSLE)</h4></div><a href="Soil_Erosion_Modelling.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-robot"></i><h4>AI Smart Prompts Mastery</h4></div><a href="certificate_of_CHATGPT.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-robot"></i><h4>Ultimate ChatGPT Prompts Pack</h4></div><a href="CHAT_GPT_7_certificate.pdf" target="_blank">↓ View PDF</a></div>
+    <div class="card-grid reveal" id="certGrid">
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-award"></i><h4>Drone Pilot (Junior) NSQF L3</h4></div><a href="Drone_Certificate.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-file-lines"></i><h4>Drone Pilot — Result / Mark Sheet</h4></div><a href="Drone_Result.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-satellite"></i><h4>ISRO/IIRS — Automated Feature Extraction</h4></div><a href="ISRO_Automated_Feature_Extraction_from_High_Resoluation_Images.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-earth-asia"></i><h4>Advanced Google Earth Engine (GEE)</h4></div><a href="Advanced_Google_Earth_Engine.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-brands fa-python"></i><h4>ArcPy for Python Developers</h4></div><a href="Arcpy_for_Python_Developers_using_ArcGIS_Pro.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-cube"></i><h4>2 &amp; 3D Drone Modeling — Agisoft Metashape</h4></div><a href="Drone_2D___3D_Modeling_Agisoft_Metashape.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-cloud-rain"></i><h4>Rainfall Indices for MCDM Models</h4></div><a href="Rainfall_Indices_for_MCD.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-chart-simple"></i><h4>Data Analysis with R Programming</h4></div><a href="R_Programming_Certificate.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-chart-simple"></i><h4>Data Analysis with SPSS</h4></div><a href="Data_Analysis_By_SPSS_Certificate.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-mountain"></i><h4>Soil Erosion Modelling (RUSLE)</h4></div><a href="Soil_Erosion_Modelling.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-robot"></i><h4>AI Smart Prompts Mastery</h4></div><a href="certificate_of_CHATGPT.pdf" target="_blank">↓ View PDF</a></div>
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-robot"></i><h4>Ultimate ChatGPT Prompts Pack</h4></div><a href="CHAT_GPT_7_certificate.pdf" target="_blank">↓ View PDF</a></div>
     </div>
   </div>
 </section>
+
+<!-- ===== Add Certificate Modal ===== -->
+<div class="modal-overlay" id="addCertModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addCertModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Certificate</h3>
+    <p class="modal-sub">Previews instantly below. Drop the PDF in your project folder and use the same filename here to make the link work permanently.</p>
+    <form id="addCertForm">
+      <div class="m-field"><label>Certificate title</label><input type="text" id="certTitle" required></div>
+      <div class="m-field"><label>PDF filename</label><input type="text" id="certPdf" placeholder="my-certificate.pdf"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Add Certificate</button></div>
+    </form>
+  </div>
+</div>
 
 <!-- ================= DOCUMENTS ================= -->
 <section id="documents">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">07 · Documents</div>
-      <h2 class="sec-title">PDF Document Library</h2>
+    <div class="sec-toolbar reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <div class="eyebrow">07 · Documents</div>
+        <h2 class="sec-title">PDF Document Library</h2>
+      </div>
+      <button class="add-card-btn glass" id="openAddDoc"><i class="fa-solid fa-plus"></i> Add Document</button>
     </div>
-    <div class="card-grid reveal">
-      <div class="doc-card glass"><div class="row"><i class="fa-solid fa-id-card"></i><h4>Full CV, Cover Letter &amp; Certificates</h4></div><a href="ashim-banik-cv.pdf" target="_blank">↓ Download PDF</a></div>
+    <div class="card-grid reveal" id="docGrid">
+      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-id-card"></i><h4>Full CV, Cover Letter &amp; Certificates</h4></div><a href="ashim-banik-cv.pdf" target="_blank">↓ Download PDF</a></div>
     </div>
   </div>
 </section>
 
+<!-- ===== Add Document Modal ===== -->
+<div class="modal-overlay" id="addDocModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addDocModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Document</h3>
+    <p class="modal-sub">Previews instantly below. Drop the PDF in your project folder and use the same filename here.</p>
+    <form id="addDocForm">
+      <div class="m-field"><label>Document title</label><input type="text" id="docTitle" required></div>
+      <div class="m-field"><label>PDF filename</label><input type="text" id="docPdf" placeholder="my-document.pdf"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Add Document</button></div>
+    </form>
+  </div>
+</div>
+
 <!-- ================= GALLERY ================= -->
 <section id="gallery">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">08 · Field &amp; Project Photos</div>
-      <h2 class="sec-title">Image Gallery</h2>
-      <p class="sec-lead">Add new photos anytime by dropping a file into <code>assets/gallery/images/&lt;category&gt;/</code> and adding one line to <code>assets/gallery/images.json</code> — no code changes needed.</p>
+    <div class="sec-toolbar reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <div class="eyebrow">08 · Field &amp; Project Photos</div>
+        <h2 class="sec-title">Image Gallery</h2>
+      </div>
+      <button class="add-card-btn glass" id="openAddImg"><i class="fa-solid fa-plus"></i> Add Photos</button>
     </div>
     <div class="filter-bar reveal" id="imgFilterBar">
       <button class="filter-btn glass active" data-imgfilter="all">All</button>
@@ -936,15 +1244,53 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
     <div class="gal-grid reveal" id="galGrid"><p class="mono" style="color:var(--ink-faint);font-size:13px;">Loading gallery…</p></div>
   </div>
 </section>
-<div id="lightbox"><span class="lb-close"><i class="fa-solid fa-xmark"></i></span><img id="lbImg" src="" alt=""></div>
+<div id="lightbox">
+  <span class="lb-close"><i class="fa-solid fa-xmark"></i></span>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" src="" alt=""></div>
+  <div class="lb-toolbar">
+    <button id="lbZoomOut" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+    <button id="lbReset" aria-label="Reset zoom"><i class="fa-solid fa-arrows-rotate"></i></button>
+    <button id="lbZoomIn" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+  </div>
+  <div class="lb-cap" id="lbCap"></div>
+  <div class="lb-nav lb-prev" id="lbPrev"><i class="fa-solid fa-chevron-left"></i></div>
+  <div class="lb-nav lb-next" id="lbNext"><i class="fa-solid fa-chevron-right"></i></div>
+</div>
+
+<!-- ===== Add Photos Modal ===== -->
+<div class="modal-overlay" id="addImgModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addImgModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Photos</h3>
+    <p class="modal-sub">Select any number of images. They preview instantly in the gallery below (this session). To keep them permanently, drop the files into <code>assets/gallery/images/&lt;category&gt;/</code> and paste the generated lines into <code>assets/gallery/images.json</code>.</p>
+    <form id="addImgForm">
+      <div class="m-field"><label>Category</label>
+        <select id="imgCat">
+          <option value="gis">GIS</option>
+          <option value="drone">Drone</option>
+          <option value="dgps">DGPS</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <div class="m-field"><label>Caption (applied to all selected)</label><input type="text" id="imgCaption" placeholder="e.g. DGPS static survey, Station 12"></div>
+      <div class="m-field"><label>Choose photos (multiple allowed)</label><input type="file" id="imgFiles" accept="image/*" multiple></div>
+      <div class="preview-thumbs" id="imgPreview"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Add to Gallery</button></div>
+      <div class="m-json" id="imgJsonOut"></div>
+      <div class="m-copy" id="imgCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+    </form>
+  </div>
+</div>
 
 <!-- ================= VIDEO GALLERY ================= -->
 <section id="videos">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="eyebrow">08b · Field Footage</div>
-      <h2 class="sec-title">Video Gallery</h2>
-      <p class="sec-lead">Add new videos anytime by dropping a file into <code>assets/gallery/videos/&lt;category&gt;/</code> and adding one line to <code>assets/gallery/videos.json</code> — no code changes needed.</p>
+    <div class="sec-toolbar reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <div class="eyebrow">08b · Field Footage</div>
+        <h2 class="sec-title">Video Gallery</h2>
+      </div>
+      <button class="add-card-btn glass" id="openAddVid"><i class="fa-solid fa-plus"></i> Add Videos</button>
     </div>
     <div class="filter-bar reveal" id="vidFilterBar">
       <button class="filter-btn glass active" data-vidfilter="all">All</button>
@@ -960,6 +1306,69 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
   </div>
 </section>
 <div id="videoModal"><span class="vm-close"><i class="fa-solid fa-xmark"></i></span><div class="vm-inner"><video id="vmPlayer" controls playsinline></video></div></div>
+
+<!-- ===== Add Videos Modal ===== -->
+<div class="modal-overlay" id="addVidModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addVidModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add Videos</h3>
+    <p class="modal-sub">Select any number of video files. They preview instantly below (this session). To keep them permanently, drop the files into <code>assets/gallery/videos/&lt;category&gt;/</code> and paste the generated lines into <code>assets/gallery/videos.json</code>.</p>
+    <form id="addVidForm">
+      <div class="m-field"><label>Category</label>
+        <select id="vidCat">
+          <option value="rsgis">Remote Sensing &amp; GIS</option>
+          <option value="dgps">DGPS</option>
+          <option value="drone">Drone</option>
+          <option value="pyjava">Python &amp; Java</option>
+          <option value="sql">SQL</option>
+          <option value="hydro">Hydrological</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <div class="m-field"><label>Title (applied to all selected)</label><input type="text" id="vidTitle" placeholder="e.g. Drone Flight — Nalabana Island"></div>
+      <div class="m-field"><label>Choose videos (multiple allowed)</label><input type="file" id="vidFiles" accept="video/*" multiple></div>
+      <div class="preview-thumbs" id="vidPreview"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Add to Gallery</button></div>
+      <div class="m-json" id="vidJsonOut"></div>
+      <div class="m-copy" id="vidCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= LIVE GEE APPS ================= -->
+<!-- ================= LIVE GEE APPS ================= -->
+<section id="gee-apps">
+  <div class="container">
+    <div class="sec-toolbar reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <div class="eyebrow">08c · Earth Engine</div>
+        <h2 class="sec-title">Live GEE Applications</h2>
+        <p class="sec-lead">Published Google Earth Engine apps &amp; dashboards — open live in a new tab.</p>
+      </div>
+      <button class="add-card-btn glass" id="openAddGee"><i class="fa-solid fa-plus"></i> Add GEE App</button>
+    </div>
+    <div class="gee-grid reveal" id="geeGrid"></div>
+    <p class="m-hint reveal" style="margin-top:22px;max-width:640px;">Replace placeholder links with your actual published GEE App URLs (from <code>code.earthengine.google.com</code> → <em>Apps → Publish</em>), and your Power BI web GIS dashboard link.</p>
+  </div>
+</section>
+
+<!-- ===== Add GEE App Modal ===== -->
+<div class="modal-overlay" id="addGeeModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="addGeeModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Add GEE App</h3>
+    <p class="modal-sub">Previews instantly below as a live card.</p>
+    <form id="addGeeForm">
+      <div class="m-field"><label>App / dashboard title</label><input type="text" id="geeTitle" required placeholder="e.g. Chilika NDVI Explorer"></div>
+      <div class="m-field"><label>Short description</label><input type="text" id="geeDesc" placeholder="One line about what it shows"></div>
+      <div class="m-field"><label>App URL</label><input type="url" id="geeUrl" required placeholder="https://your-app.earthengine.app/view/..."></div>
+      <div class="m-field"><label>Link to project (optional)</label>
+        <select id="geeLinkedProject"><option value="">— None —</option></select>
+      </div>
+      <div class="m-actions"><button type="submit" class="btn primary">Add GEE App</button></div>
+    </form>
+  </div>
+</div>
 
 <!-- ================= SERVICES ================= -->
 <section id="services">
@@ -996,9 +1405,6 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
           <a href="https://www.linkedin.com/in/ashim-banik-595595210/" target="_blank" rel="noopener" class="glass"><i class="fa-brands fa-linkedin"></i> LinkedIn Profile</a>
           <a href="https://orcid.org/0009-0004-7565-8859" target="_blank" rel="noopener" class="glass"><i class="fa-brands fa-orcid"></i> ORCID Profile</a>
           <a href="#" class="glass"><i class="fa-solid fa-location-dot"></i> Bhubaneswar, Odisha, India</a>
-        </div>
-        <div class="map-frame glass">
-          <iframe src="https://www.google.com/maps?q=Bhubaneswar,Odisha,India&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map location — Bhubaneswar, Odisha"></iframe>
         </div>
       </div>
       <form class="contact-form glass" action="mailto:ashim2588@gmail.com" method="post" enctype="text/plain">
@@ -1143,11 +1549,21 @@ function renderGallery(){
   const items = currentImgFilter === 'all' ? imgData : imgData.filter(d => d.category === currentImgFilter);
   if(!items.length){ grid.innerHTML = '<p class="mono" style="color:var(--ink-faint);font-size:13px;">No images in this category yet.</p>'; return; }
   grid.innerHTML = items.map(d => `
-    <div class="gal-item" data-full="${d.file}" data-cap="${d.caption || ''}">
+    <div class="gal-item can-delete" data-full="${d.file}" data-cap="${d.caption || ''}" data-idx="${imgData.indexOf(d)}">
+      <i class="fa-solid fa-xmark del-btn" data-delimg="${imgData.indexOf(d)}"></i>
       <img src="${d.file}" alt="${d.caption || ''}" loading="lazy">
       <div class="cap">${d.caption || ''}</div>
     </div>`).join('');
   attachLightboxHandlers();
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const idx = +btn.getAttribute('data-delimg');
+      imgData[idx] = null;
+      imgData = imgData.filter(Boolean);
+      renderGallery();
+    });
+  });
 }
 
 function renderVideos(filter){
@@ -1155,7 +1571,8 @@ function renderVideos(filter){
   const items = filter === 'all' ? vidData : vidData.filter(d => d.category === filter);
   if(!items.length){ grid.innerHTML = '<p class="mono" style="color:var(--ink-faint);font-size:13px;">No videos in this category yet.</p>'; return; }
   grid.innerHTML = items.map(d => `
-    <div class="video-card glass" data-src="${d.file}">
+    <div class="video-card glass can-delete" data-src="${d.file}">
+      <i class="fa-solid fa-xmark del-btn" data-delvid="${vidData.indexOf(d)}"></i>
       <div class="video-thumb">
         <img src="${d.poster || ''}" alt="${d.title || ''}" loading="lazy">
         <div class="play-btn"><i class="fa-solid fa-play"></i></div>
@@ -1164,6 +1581,15 @@ function renderVideos(filter){
       <div class="video-body"><h4>${d.title || ''}</h4><p>${d.desc || ''}</p></div>
     </div>`).join('');
   attachVideoHandlers();
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const idx = +btn.getAttribute('data-delvid');
+      vidData[idx] = null;
+      vidData = vidData.filter(Boolean);
+      renderVideos(document.querySelector('#vidFilterBar .filter-btn.active')?.getAttribute('data-vidfilter') || 'all');
+    });
+  });
 }
 
 async function loadManifests(){
@@ -1194,20 +1620,320 @@ document.getElementById('vidFilterBar').addEventListener('click', (e)=>{
   renderVideos(btn.getAttribute('data-vidfilter'));
 });
 
-/* ---------- Gallery lightbox ---------- */
+/* ---------- Gallery lightbox (with zoom + pan + nav) ---------- */
 const lightbox = document.getElementById('lightbox');
 const lbImg = document.getElementById('lbImg');
+const lbStage = document.getElementById('lbStage');
+const lbCap = document.getElementById('lbCap');
+let lbItems = [];
+let lbIndex = 0;
+let lbZoom = 1;
+let lbPan = {x:0,y:0};
+let lbDragging = false, lbDragStart = {x:0,y:0};
+
+function applyLbTransform(){
+  lbImg.style.transform = `translate(${lbPan.x}px, ${lbPan.y}px) scale(${lbZoom})`;
+}
+function openLightbox(index){
+  lbIndex = index;
+  const it = lbItems[lbIndex];
+  if(!it) return;
+  lbZoom = 1; lbPan = {x:0,y:0};
+  lbImg.src = it.file;
+  lbImg.alt = it.caption || '';
+  lbCap.textContent = it.caption || '';
+  applyLbTransform();
+  lightbox.classList.add('open');
+}
 function attachLightboxHandlers(){
-  document.querySelectorAll('.gal-item').forEach(item=>{
-    item.addEventListener('click', ()=>{
-      lbImg.src = item.getAttribute('data-full');
-      lbImg.alt = item.getAttribute('data-cap');
-      lightbox.classList.add('open');
+  const nodes = document.querySelectorAll('.gal-item');
+  lbItems = Array.from(nodes).map(n => ({ file:n.getAttribute('data-full'), caption:n.getAttribute('data-cap') }));
+  nodes.forEach((item,i)=>{
+    item.addEventListener('click', ()=> openLightbox(i));
+  });
+}
+document.getElementById('lbZoomIn').addEventListener('click', (e)=>{ e.stopPropagation(); lbZoom = Math.min(lbZoom+0.4, 4); applyLbTransform(); });
+document.getElementById('lbZoomOut').addEventListener('click', (e)=>{ e.stopPropagation(); lbZoom = Math.max(lbZoom-0.4, 0.6); applyLbTransform(); });
+document.getElementById('lbReset').addEventListener('click', (e)=>{ e.stopPropagation(); lbZoom = 1; lbPan = {x:0,y:0}; applyLbTransform(); });
+document.getElementById('lbPrev').addEventListener('click', (e)=>{ e.stopPropagation(); openLightbox((lbIndex-1+lbItems.length)%lbItems.length); });
+document.getElementById('lbNext').addEventListener('click', (e)=>{ e.stopPropagation(); openLightbox((lbIndex+1)%lbItems.length); });
+lbStage.addEventListener('wheel', (e)=>{ e.preventDefault(); lbZoom = Math.min(Math.max(lbZoom + (e.deltaY<0?0.2:-0.2), 0.6), 4); applyLbTransform(); }, {passive:false});
+lbStage.addEventListener('mousedown', (e)=>{ if(lbZoom<=1) return; lbDragging=true; lbStage.classList.add('dragging'); lbDragStart={x:e.clientX-lbPan.x, y:e.clientY-lbPan.y}; });
+window.addEventListener('mousemove', (e)=>{ if(!lbDragging) return; lbPan={x:e.clientX-lbDragStart.x, y:e.clientY-lbDragStart.y}; applyLbTransform(); });
+window.addEventListener('mouseup', ()=>{ lbDragging=false; lbStage.classList.remove('dragging'); });
+lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) lightbox.classList.remove('open'); });
+lightbox.querySelector('.lb-close').addEventListener('click', ()=> lightbox.classList.remove('open'));
+document.addEventListener('keydown', (e)=>{
+  if(!lightbox.classList.contains('open')) return;
+  if(e.key==='Escape') lightbox.classList.remove('open');
+  if(e.key==='ArrowRight') openLightbox((lbIndex+1)%lbItems.length);
+  if(e.key==='ArrowLeft') openLightbox((lbIndex-1+lbItems.length)%lbItems.length);
+  if(e.key==='+') { lbZoom = Math.min(lbZoom+0.4,4); applyLbTransform(); }
+  if(e.key==='-') { lbZoom = Math.max(lbZoom-0.4,0.6); applyLbTransform(); }
+});
+
+/* ---------- Generic modal open/close ---------- */
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.m-close').forEach(btn=>{
+  btn.addEventListener('click', ()=> closeModal(btn.getAttribute('data-close')));
+});
+document.querySelectorAll('.modal-overlay').forEach(ov=>{
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.classList.remove('open'); });
+});
+document.getElementById('openAddProject').addEventListener('click', ()=> openModal('addProjectModal'));
+document.getElementById('openAddPub').addEventListener('click', ()=> openModal('addPubModal'));
+document.getElementById('openAddImg').addEventListener('click', ()=> openModal('addImgModal'));
+document.getElementById('openAddVid').addEventListener('click', ()=> openModal('addVidModal'));
+
+/* ---------- Cross-linking: jump to a filtered section from any card ---------- */
+document.querySelectorAll('[data-jump]').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const [sectionId, barId, attr, val] = a.getAttribute('data-jump').split('|');
+    const bar = document.getElementById(barId);
+    if(bar){
+      const btn = bar.querySelector(`[${attr}="${val}"]`);
+      if(btn) btn.click();
+    }
+    document.getElementById(sectionId).scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ---------- PDF viewer modal ---------- */
+const pdfModal = document.getElementById('pdfModal');
+const pdfFrame = document.getElementById('pdfFrame');
+function openPdf(file){ pdfFrame.src = file; pdfModal.classList.add('open'); }
+function closePdf(){ pdfModal.classList.remove('open'); pdfFrame.src=''; }
+document.getElementById('pdfClose').addEventListener('click', closePdf);
+pdfModal.addEventListener('click', (e)=>{ if(e.target===pdfModal) closePdf(); });
+document.querySelectorAll('.pdf-open').forEach(a=>{
+  a.addEventListener('click', ()=> openPdf(a.getAttribute('data-pdf')));
+});
+
+/* ---------- Add Project / Report (client-side preview + JSON generator) ---------- */
+document.getElementById('addProjectForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('apTitle').value.trim();
+  const desc = document.getElementById('apDesc').value.trim();
+  const cat = document.getElementById('apCat').value;
+  const tags = document.getElementById('apTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const pdf = document.getElementById('apPdf').value.trim();
+  if(!title) return;
+  const card = document.createElement('div');
+  card.className = 'proj-card glass show can-delete';
+  card.setAttribute('data-cat', cat);
+  card.innerHTML = `
+    <i class="fa-solid fa-xmark del-btn"></i>
+    <div class="proj-thumb"><i class="fa-solid fa-star"></i></div>
+    <div class="proj-body">
+      <h3>${title}</h3>
+      <p class="oneline">${desc}</p>
+      <div class="tag-row">${tags.map(t=>`<span>${t}</span>`).join('')}</div>
+      ${pdf ? `<div class="related-row"><a href="javascript:void(0)" class="pdf-open" data-pdf="${pdf}"><i class="fa-solid fa-eye"></i> View PDF</a></div>` : ''}
+    </div>`;
+  document.getElementById('projGrid').prepend(card);
+  wireStaticDeletes(card);
+  if(pdf){ card.querySelector('.pdf-open').addEventListener('click', ()=> openPdf(pdf)); }
+  const json = JSON.stringify({ title, desc, category:cat, tags, pdf: pdf || null }, null, 2);
+  const out = document.getElementById('apJsonOut');
+  out.textContent = json; out.classList.add('show');
+  document.getElementById('apCopyBtn').classList.add('show');
+});
+document.getElementById('apCopyBtn').addEventListener('click', function(){
+  navigator.clipboard.writeText(document.getElementById('apJsonOut').textContent);
+  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+});
+
+/* ---------- Add Publication ---------- */
+document.getElementById('addPubForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('pubTitle').value.trim();
+  const meta = document.getElementById('pubMeta').value.trim();
+  const link = document.getElementById('pubLink').value.trim();
+  const pdf = document.getElementById('pubPdf').value.trim();
+  if(!title) return;
+  const card = document.createElement('div');
+  card.className = 'pub-card glass can-delete';
+  card.innerHTML = `
+    <i class="fa-solid fa-xmark del-btn"></i>
+    <h3>${title}</h3>
+    <div class="meta">${meta}</div>
+    <div class="related-row" style="border-top:none;padding-top:0;margin-top:10px;">
+      ${link ? `<a href="${link}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Online Link</a>` : ''}
+      ${pdf ? `<a href="javascript:void(0)" class="pdf-open" data-pdf="${pdf}"><i class="fa-solid fa-eye"></i> View PDF</a>` : ''}
+    </div>`;
+  document.getElementById('pubGrid').appendChild(card);
+  wireStaticDeletes(card);
+  if(pdf){ card.querySelector('.pdf-open').addEventListener('click', ()=> openPdf(pdf)); }
+  const json = JSON.stringify({ title, meta, link: link || null, pdf: pdf || null }, null, 2);
+  const out = document.getElementById('pubJsonOut');
+  out.textContent = json; out.classList.add('show');
+  document.getElementById('pubCopyBtn').classList.add('show');
+});
+document.getElementById('pubCopyBtn').addEventListener('click', function(){
+  navigator.clipboard.writeText(document.getElementById('pubJsonOut').textContent);
+  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+});
+
+/* ---------- Add Photos (multi-file preview + JSON generator) ---------- */
+document.getElementById('imgFiles').addEventListener('change', function(){
+  const preview = document.getElementById('imgPreview');
+  preview.innerHTML = '';
+  Array.from(this.files).forEach(f=>{
+    const url = URL.createObjectURL(f);
+    const img = document.createElement('img');
+    img.src = url;
+    preview.appendChild(img);
+  });
+});
+document.getElementById('addImgForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const cat = document.getElementById('imgCat').value;
+  const caption = document.getElementById('imgCaption').value.trim();
+  const files = document.getElementById('imgFiles').files;
+  if(!files.length) return;
+  const lines = [];
+  Array.from(files).forEach(f=>{
+    const url = URL.createObjectURL(f);
+    imgData.unshift({ file:url, category:cat, caption: caption || f.name });
+    lines.push(JSON.stringify({ file: f.name, category:cat, caption: caption || '' }));
+  });
+  renderGallery();
+  const out = document.getElementById('imgJsonOut');
+  out.textContent = '[\n  ' + lines.join(',\n  ') + '\n]';
+  out.classList.add('show');
+  document.getElementById('imgCopyBtn').classList.add('show');
+});
+document.getElementById('imgCopyBtn').addEventListener('click', function(){
+  navigator.clipboard.writeText(document.getElementById('imgJsonOut').textContent);
+  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+});
+
+/* ---------- Add Videos (multi-file preview + JSON generator) ---------- */
+document.getElementById('vidFiles').addEventListener('change', function(){
+  const preview = document.getElementById('vidPreview');
+  preview.innerHTML = '';
+  Array.from(this.files).forEach(f=>{
+    const url = URL.createObjectURL(f);
+    const v = document.createElement('video');
+    v.src = url; v.muted = true;
+    preview.appendChild(v);
+  });
+});
+document.getElementById('addVidForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const cat = document.getElementById('vidCat').value;
+  const title = document.getElementById('vidTitle').value.trim();
+  const files = document.getElementById('vidFiles').files;
+  if(!files.length) return;
+  const lines = [];
+  Array.from(files).forEach(f=>{
+    const url = URL.createObjectURL(f);
+    vidData.unshift({ file:url, category:cat, title: title || f.name, desc:'', poster:'' });
+    lines.push(JSON.stringify({ file: f.name, category:cat, title: title || '', desc:'', poster:'' }));
+  });
+  renderVideos(document.querySelector('#vidFilterBar .filter-btn.active')?.getAttribute('data-vidfilter') || 'all');
+  const out = document.getElementById('vidJsonOut');
+  out.textContent = '[\n  ' + lines.join(',\n  ') + '\n]';
+  out.classList.add('show');
+  document.getElementById('vidCopyBtn').classList.add('show');
+});
+document.getElementById('vidCopyBtn').addEventListener('click', function(){
+  navigator.clipboard.writeText(document.getElementById('vidJsonOut').textContent);
+  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+});
+
+/* ---------- Generic delete wiring for static (non-manifest) cards ---------- */
+function wireStaticDeletes(container){
+  container.querySelectorAll('.can-delete > .del-btn').forEach(btn=>{
+    if(btn.dataset.wired) return;
+    btn.dataset.wired = '1';
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      btn.closest('.can-delete').remove();
     });
   });
 }
-lightbox.addEventListener('click', ()=> lightbox.classList.remove('open'));
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') lightbox.classList.remove('open'); });
+wireStaticDeletes(document);
+
+/* ---------- Add Certificate ---------- */
+document.getElementById('openAddCert').addEventListener('click', ()=> openModal('addCertModal'));
+document.getElementById('addCertForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('certTitle').value.trim();
+  const pdf = document.getElementById('certPdf').value.trim();
+  if(!title) return;
+  const card = document.createElement('div');
+  card.className = 'doc-card glass can-delete';
+  card.innerHTML = `<i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-award"></i><h4>${title}</h4></div>${pdf ? `<a href="${pdf}" target="_blank">↓ View PDF</a>` : ''}`;
+  document.getElementById('certGrid').prepend(card);
+  wireStaticDeletes(card);
+  closeModal('addCertModal');
+  this.reset();
+});
+
+/* ---------- Add Document ---------- */
+document.getElementById('openAddDoc').addEventListener('click', ()=> openModal('addDocModal'));
+document.getElementById('addDocForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('docTitle').value.trim();
+  const pdf = document.getElementById('docPdf').value.trim();
+  if(!title) return;
+  const card = document.createElement('div');
+  card.className = 'doc-card glass can-delete';
+  card.innerHTML = `<i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-file-lines"></i><h4>${title}</h4></div>${pdf ? `<a href="${pdf}" target="_blank">↓ View PDF</a>` : ''}`;
+  document.getElementById('docGrid').prepend(card);
+  wireStaticDeletes(card);
+  closeModal('addDocModal');
+  this.reset();
+});
+
+/* ---------- GEE Apps (data-driven, with delete + linked-project reference) ---------- */
+let geeData = [
+  { title:"Chilika Shoreline & MNDWI Water Extent Tool", desc:"Interactive MNDWI water-extent and shoreline-change explorer for Chilika Lagoon.", url:"https://YOUR-GEE-USERNAME.users.earthengine.app/view/chilika-shoreline", icon:"fa-water", linked:"" },
+  { title:"Seasonal Lagoon Water Volume Viewer", desc:"Browse seasonal water-extent and volume estimates across Chilika (2023–2025).", url:"https://YOUR-GEE-USERNAME.users.earthengine.app/view/lagoon-water-volume", icon:"fa-chart-area", linked:"" },
+  { title:"Power BI — Statistical Web GIS Dashboard Architecture", desc:"Reference architecture for a statistical Web GIS dashboard built on Power BI.", url:"https://app.powerbi.com/YOUR-WORKSPACE/statistical-webgis-dashboard", icon:"fa-chart-column", linked:"" }
+];
+function renderGee(){
+  const grid = document.getElementById('geeGrid');
+  grid.innerHTML = geeData.map((g,i)=>`
+    <div class="gee-card glass can-delete">
+      <i class="fa-solid fa-xmark del-btn" data-delgee="${i}"></i>
+      <i class="fa-solid ${g.icon || 'fa-earth-asia'} gee-icon"></i>
+      ${g.linked ? `<div class="gee-linked"><i class="fa-solid fa-link"></i> ${g.linked}</div>` : ''}
+      <h3>${g.title}</h3>
+      <p>${g.desc || ''}</p>
+      <a href="${g.url}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live App</a>
+    </div>`).join('');
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      geeData[+btn.getAttribute('data-delgee')] = null;
+      geeData = geeData.filter(Boolean);
+      renderGee();
+    });
+  });
+}
+renderGee();
+
+document.getElementById('openAddGee').addEventListener('click', ()=>{
+  const sel = document.getElementById('geeLinkedProject');
+  sel.innerHTML = '<option value="">— None —</option>' + Array.from(document.querySelectorAll('#projGrid .proj-body h3')).map(h=>`<option>${h.textContent}</option>`).join('');
+  openModal('addGeeModal');
+});
+document.getElementById('addGeeForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const title = document.getElementById('geeTitle').value.trim();
+  const desc = document.getElementById('geeDesc').value.trim();
+  const url = document.getElementById('geeUrl').value.trim();
+  const linked = document.getElementById('geeLinkedProject').value;
+  if(!title || !url) return;
+  geeData.unshift({ title, desc, url, icon:'fa-earth-asia', linked });
+  renderGee();
+  closeModal('addGeeModal');
+  this.reset();
+});
 
 /* ---------- Video gallery modal ---------- */
 const videoModal = document.getElementById('videoModal');
