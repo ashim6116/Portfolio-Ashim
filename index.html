@@ -691,6 +691,41 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
   margin-bottom:10px;padding:4px 10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);
 }
 .gee-linked i{color:var(--azure);}
+
+/* ============================================================
+   32. ADMIN GATING — hidden from everyone except signed-in owner
+   ============================================================ */
+.admin-only{display:none !important;}
+body.is-admin .admin-only{display:inline-flex !important;}
+body.is-admin .del-btn{display:flex !important;}
+.del-btn{display:none;}
+
+#adminBtn{
+  position:fixed;left:18px;bottom:18px;z-index:900;width:46px;height:46px;border-radius:50%;
+  background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--ink-dim);
+  display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:.25s;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+}
+#adminBtn:hover{color:var(--emerald);border-color:var(--emerald);}
+body.is-admin #adminBtn{background:linear-gradient(135deg,var(--emerald),var(--azure));color:#04150f;border:none;}
+#adminBadge{
+  position:fixed;left:70px;bottom:24px;z-index:900;font-family:var(--mono);font-size:11px;color:var(--emerald);
+  display:none;align-items:center;gap:8px;background:var(--glass);padding:8px 14px;border-radius:20px;border:1px solid var(--glass-border);
+}
+body.is-admin #adminBadge{display:flex;}
+#adminBadge button{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);text-decoration:underline;cursor:pointer;}
+
+#ghToast{
+  position:fixed;top:90px;right:24px;z-index:10001;max-width:340px;padding:14px 18px;border-radius:12px;
+  background:var(--bg-2);border:1px solid var(--glass-border);box-shadow:0 10px 30px rgba(0,0,0,.3);
+  font-size:12.5px;color:var(--ink);display:none;gap:10px;align-items:flex-start;
+}
+#ghToast.show{display:flex;}
+#ghToast.err{border-color:#e5484d;}
+#ghToast.ok{border-color:var(--emerald);}
+#ghToast i{margin-top:2px;}
+#ghToast.ok i{color:var(--emerald);}
+#ghToast.err i{color:#e5484d;}
 </style>
 </head>
 <body>
@@ -727,6 +762,30 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
 <a href="#gee-apps" id="geeRibbon" aria-label="View live Google Earth Engine apps">
   <i class="fa-solid fa-earth-asia"></i><span>Live GEE Apps</span>
 </a>
+
+<div id="adminBtn" title="Site owner sign-in"><i class="fa-solid fa-lock"></i></div>
+<div id="adminBadge"><i class="fa-solid fa-unlock"></i> Admin mode <button id="adminSignOut">sign out</button></div>
+<div id="ghToast"></div>
+
+<div class="modal-overlay" id="adminModal">
+  <div class="modal-box glass-strong">
+    <span class="m-close" data-close="adminModal"><i class="fa-solid fa-xmark"></i></span>
+    <h3>Owner Sign-In</h3>
+    <p class="modal-sub">Only you should fill this in. Everyone else browsing the site never sees Add/Delete controls — they only see the content. Your token is kept in this browser tab only; it is never saved to the repo.</p>
+    <form id="adminForm">
+      <div class="m-row2">
+        <div class="m-field"><label>GitHub username</label><input type="text" id="ghOwner" value="ashim6116" required></div>
+        <div class="m-field"><label>Repository name</label><input type="text" id="ghRepo" value="Ashim-Banik-Portfolio" required></div>
+      </div>
+      <div class="m-field"><label>Branch</label><input type="text" id="ghBranch" value="main" required></div>
+      <div class="m-field"><label>GitHub Personal Access Token</label><input type="text" id="ghToken" placeholder="ghp_..." required autocomplete="off"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Sign In &amp; Enable Editing</button></div>
+      <div class="m-hint">
+        Create one at <code>github.com → Settings → Developer settings → Personal access tokens → Fine-grained</code>, scoped only to this repository with <code>Contents: Read and write</code>. This is what actually enforces "only I can edit" — the token is the real lock, not just the buttons.
+      </div>
+    </form>
+  </div>
+</div>
 
 <main id="main">
 <section class="hero" id="top">
@@ -959,120 +1018,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <button class="filter-btn glass" data-filter="training">Training</button>
         <button class="filter-btn glass" data-filter="report">Reports</button>
       </div>
-      <button class="add-card-btn glass" id="openAddProject"><i class="fa-solid fa-plus"></i> Add Project / Report</button>
+      <button class="add-card-btn glass admin-only" id="openAddProject"><i class="fa-solid fa-plus"></i> Add Project / Report</button>
     </div>
-    <div class="proj-grid reveal" id="projGrid">
-      <div class="proj-card glass show can-delete" data-cat="wetland"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-water"></i></div>
-        <div class="proj-body">
-          <h3>Wetland &amp; Coastal Monitoring — Chilika, Ansupa &amp; Tampara</h3>
-          <p class="oneline">Satellite, DGPS, bathymetric &amp; drone data integration.</p>
-          <div class="tag-row"><span>ArcGIS Pro</span><span>ERDAS Imagine</span><span>GEE</span><span>QGIS</span></div>
-          <div class="related-row">
-            <a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|gis"><i class="fa-solid fa-image"></i> Gallery</a>
-            <a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|rsgis"><i class="fa-solid fa-video"></i> Videos</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="survey"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-dove"></i></div>
-        <div class="proj-body">
-          <h3>Annual Biodiversity Surveys — Chilika Lagoon</h3>
-          <p class="oneline">6+ years of bird, dolphin &amp; habitat monitoring.</p>
-          <div class="tag-row"><span>Hydrophone</span><span>Field Ecology</span><span>DGPS</span></div>
-          <div class="related-row">
-            <a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|others"><i class="fa-solid fa-video"></i> Videos</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="survey"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-map-location-dot"></i></div>
-        <div class="proj-body">
-          <h3>Forest Boundary &amp; Cadastral Mapping — Jharkhand</h3>
-          <p class="oneline">DGPS-based boundary &amp; forest cover mapping.</p>
-          <div class="tag-row"><span>DGPS Static/RTK</span><span>Cadastral</span></div>
-          <div class="related-row">
-            <a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|dgps"><i class="fa-solid fa-image"></i> Gallery</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="survey"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-house-chimney-window"></i></div>
-        <div class="proj-body">
-          <h3>Central Sanitation Survey — JICA Project, Cuttack</h3>
-          <p class="oneline">Household-level sanitation &amp; water-supply GIS survey.</p>
-          <div class="tag-row"><span>Survey123</span><span>Household Data</span></div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="drone"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-helicopter"></i></div>
-        <div class="proj-body">
-          <h3>Drone-based Survey &amp; Photogrammetry</h3>
-          <p class="oneline">NSQF L3 certified aerial mapping with Agisoft Metashape.</p>
-          <div class="tag-row"><span>Drone Survey</span><span>Agisoft Metashape</span></div>
-          <div class="related-row">
-            <a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|drone"><i class="fa-solid fa-image"></i> Gallery</a>
-            <a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|drone"><i class="fa-solid fa-video"></i> Videos</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="training"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-chalkboard-user"></i></div>
-        <div class="proj-body">
-          <h3>GIS/GPS Capacity-Building Training</h3>
-          <p class="oneline">200+ students &amp; professionals trained.</p>
-          <div class="tag-row"><span>Training</span><span>Capacity Building</span></div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="wetland report" data-pdf="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-chart-area"></i></div>
-        <div class="proj-body">
-          <h3>Seasonal Water Volume Fluctuations — Chilika Lagoon (2023–2025)</h3>
-          <p class="oneline">MNDWI-derived water extent &amp; bathymetric interpolation.</p>
-          <div class="tag-row"><span>MNDWI</span><span>Landsat 8/9</span><span>Bathymetry</span></div>
-          <div class="related-row">
-            <a href="javascript:void(0)" class="pdf-open" data-pdf="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
-            <a href="Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf" download><i class="fa-solid fa-download"></i> Download</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="wetland report"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-map"></i></div>
-        <div class="proj-body">
-          <h3>Block-wise Earthen Gherry Mapping — Puri, Ganjam &amp; Khordha</h3>
-          <p class="oneline">2021–2026 change detection across coastal blocks.</p>
-          <div class="tag-row"><span>Change Detection</span><span>GIS Mapping</span></div>
-          <div class="related-row">
-            <a href="javascript:void(0)" class="pdf-open" data-pdf="Block_wise_Earthern_Gherry.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
-            <a href="Block_wise_Earthern_Gherry.pdf" download><i class="fa-solid fa-download"></i> Download</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="wetland report"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-mountain"></i></div>
-        <div class="proj-body">
-          <h3>Soil Erosion Modelling using RUSLE in QGIS</h3>
-          <p class="oneline">Catchment-scale soil erosion risk modelling.</p>
-          <div class="tag-row"><span>RUSLE</span><span>QGIS</span></div>
-          <div class="related-row">
-            <a href="javascript:void(0)" class="pdf-open" data-pdf="Soil_Erosion_Modelling.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
-            <a href="Soil_Erosion_Modelling.pdf" download><i class="fa-solid fa-download"></i> Download</a>
-          </div>
-        </div>
-      </div>
-      <div class="proj-card glass show can-delete" data-cat="wetland report"><i class="fa-solid fa-xmark del-btn"></i>
-        <div class="proj-thumb"><i class="fa-solid fa-file-lines"></i></div>
-        <div class="proj-body">
-          <h3>Chilika Lake — Integrated Management Plan 2025–2030</h3>
-          <p class="oneline">Lagoon-wide management &amp; planning document.</p>
-          <div class="tag-row"><span>Management Plan</span></div>
-          <div class="related-row">
-            <a href="javascript:void(0)" class="pdf-open" data-pdf="IMP_Chilika_lake_2025-2030__28_10_2025.pdf"><i class="fa-solid fa-eye"></i> View PDF</a>
-            <a href="IMP_Chilika_lake_2025-2030__28_10_2025.pdf" download><i class="fa-solid fa-download"></i> Download</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="proj-grid reveal" id="projGrid"><p class="mono" style="color:var(--ink-faint);font-size:13px;">Loading projects…</p></div>
   </div>
 </section>
 
@@ -1097,14 +1045,13 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         </div>
         <div class="m-field"><label>Tags (comma separated)</label><input type="text" id="apTags" placeholder="QGIS, DSAS"></div>
       </div>
-      <div class="m-field"><label>PDF filename (optional)</label><input type="text" id="apPdf" placeholder="my-report.pdf"></div>
+      <div class="m-field"><label>PDF report (optional)</label><input type="file" id="apPdf" accept="application/pdf"></div>
       <div class="m-field"><label>Thumbnail / cover image (optional)</label><input type="file" id="apImg" accept="image/*"></div>
       <div class="m-actions">
-        <button type="submit" class="btn primary">Add &amp; Preview Card</button>
+        <button type="submit" class="btn primary">Upload &amp; Publish Card</button>
       </div>
-      <div class="m-json" id="apJsonOut"></div>
-      <div class="m-copy" id="apCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
-      <div class="m-hint">Static GitHub Pages sites can't accept live file uploads from visitors — this is your own editing tool. It writes the card instantly to this page and gives you the exact JSON line to save permanently in <code>projects.json</code>.</div>
+      <div id="apStatus" class="m-hint" style="display:none;"></div>
+      <div class="m-hint">Signed-in uploads are committed straight to your GitHub repository via the GitHub API — they go live for every visitor once GitHub Pages rebuilds (usually well under a minute).</div>
     </form>
   </div>
 </div>
@@ -1121,17 +1068,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <h2 class="sec-title">Publications &amp; Reports</h2>
         <p class="sec-lead">Peer-reviewed work — full technical reports live in Projects &amp; Reports above.</p>
       </div>
-      <button class="add-card-btn glass" id="openAddPub"><i class="fa-solid fa-plus"></i> Add Publication</button>
+      <button class="add-card-btn glass admin-only" id="openAddPub"><i class="fa-solid fa-plus"></i> Add Publication</button>
     </div>
-    <div id="pubGrid">
-      <div class="pub-card glass reveal can-delete"><i class="fa-solid fa-xmark del-btn"></i>
-        <h3>Assessing Urban Heat Island Impact and Identifying Vulnerability Zones Through Geospatial and Geo-statistical Techniques</h3>
-        <div class="meta">Nandi, D., Sing, D., Banik, A., Mishra, P.S. · International Journal of Conservation Science, Vol. 15, Issue 3, 2024, pp. 1577–1592</div>
-        <div class="related-row" style="border-top:none;padding-top:0;margin-top:10px;">
-          <a href="https://doi.org/10.36868/IJCS.2024.03.26" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Online Link (DOI)</a>
-        </div>
-      </div>
-    </div>
+    <div id="pubGrid"><p class="mono" style="color:var(--ink-faint);font-size:13px;">Loading publications…</p></div>
   </div>
 </section>
 
@@ -1145,10 +1084,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
       <div class="m-field"><label>Title</label><input type="text" id="pubTitle" required></div>
       <div class="m-field"><label>Authors &amp; citation</label><input type="text" id="pubMeta" placeholder="Authors · Journal, Vol, Year, pp."></div>
       <div class="m-field"><label>Online link (DOI / URL)</label><input type="url" id="pubLink" placeholder="https://doi.org/..."></div>
-      <div class="m-field"><label>PDF filename (optional)</label><input type="text" id="pubPdf" placeholder="my-publication.pdf"></div>
-      <div class="m-actions"><button type="submit" class="btn primary">Add &amp; Preview</button></div>
-      <div class="m-json" id="pubJsonOut"></div>
-      <div class="m-copy" id="pubCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+      <div class="m-field"><label>PDF (optional)</label><input type="file" id="pubPdf" accept="application/pdf"></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Upload &amp; Publish</button></div>
+      <div id="pubStatus" class="m-hint" style="display:none;"></div>
     </form>
   </div>
 </div>
@@ -1161,22 +1099,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <div class="eyebrow">06 · Certificates &amp; Training</div>
         <h2 class="sec-title">Certificate Gallery</h2>
       </div>
-      <button class="add-card-btn glass" id="openAddCert"><i class="fa-solid fa-plus"></i> Add Certificate</button>
+      <button class="add-card-btn glass admin-only" id="openAddCert"><i class="fa-solid fa-plus"></i> Add Certificate</button>
     </div>
-    <div class="card-grid reveal" id="certGrid">
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-award"></i><h4>Drone Pilot (Junior) NSQF L3</h4></div><a href="Drone_Certificate.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-file-lines"></i><h4>Drone Pilot — Result / Mark Sheet</h4></div><a href="Drone_Result.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-satellite"></i><h4>ISRO/IIRS — Automated Feature Extraction</h4></div><a href="ISRO_Automated_Feature_Extraction_from_High_Resoluation_Images.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-earth-asia"></i><h4>Advanced Google Earth Engine (GEE)</h4></div><a href="Advanced_Google_Earth_Engine.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-brands fa-python"></i><h4>ArcPy for Python Developers</h4></div><a href="Arcpy_for_Python_Developers_using_ArcGIS_Pro.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-cube"></i><h4>2 &amp; 3D Drone Modeling — Agisoft Metashape</h4></div><a href="Drone_2D___3D_Modeling_Agisoft_Metashape.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-cloud-rain"></i><h4>Rainfall Indices for MCDM Models</h4></div><a href="Rainfall_Indices_for_MCD.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-chart-simple"></i><h4>Data Analysis with R Programming</h4></div><a href="R_Programming_Certificate.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-chart-simple"></i><h4>Data Analysis with SPSS</h4></div><a href="Data_Analysis_By_SPSS_Certificate.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-mountain"></i><h4>Soil Erosion Modelling (RUSLE)</h4></div><a href="Soil_Erosion_Modelling.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-robot"></i><h4>AI Smart Prompts Mastery</h4></div><a href="certificate_of_CHATGPT.pdf" target="_blank">↓ View PDF</a></div>
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-robot"></i><h4>Ultimate ChatGPT Prompts Pack</h4></div><a href="CHAT_GPT_7_certificate.pdf" target="_blank">↓ View PDF</a></div>
-    </div>
+    <div class="card-grid reveal" id="certGrid"><p class="mono" style="color:var(--ink-faint);font-size:13px;">Loading certificates…</p></div>
   </div>
 </section>
 
@@ -1188,8 +1113,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
     <p class="modal-sub">Previews instantly below. Drop the PDF in your project folder and use the same filename here to make the link work permanently.</p>
     <form id="addCertForm">
       <div class="m-field"><label>Certificate title</label><input type="text" id="certTitle" required></div>
-      <div class="m-field"><label>PDF filename</label><input type="text" id="certPdf" placeholder="my-certificate.pdf"></div>
-      <div class="m-actions"><button type="submit" class="btn primary">Add Certificate</button></div>
+      <div class="m-field"><label>PDF file</label><input type="file" id="certPdf" accept="application/pdf" required></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Upload Certificate</button></div>
+      <div id="certStatus" class="m-hint" style="display:none;"></div>
     </form>
   </div>
 </div>
@@ -1202,11 +1128,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <div class="eyebrow">07 · Documents</div>
         <h2 class="sec-title">PDF Document Library</h2>
       </div>
-      <button class="add-card-btn glass" id="openAddDoc"><i class="fa-solid fa-plus"></i> Add Document</button>
+      <button class="add-card-btn glass admin-only" id="openAddDoc"><i class="fa-solid fa-plus"></i> Add Document</button>
     </div>
-    <div class="card-grid reveal" id="docGrid">
-      <div class="doc-card glass can-delete"><i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-id-card"></i><h4>Full CV, Cover Letter &amp; Certificates</h4></div><a href="ashim-banik-cv.pdf" target="_blank">↓ Download PDF</a></div>
-    </div>
+    <div class="card-grid reveal" id="docGrid"><p class="mono" style="color:var(--ink-faint);font-size:13px;">Loading documents…</p></div>
   </div>
 </section>
 
@@ -1218,8 +1142,9 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
     <p class="modal-sub">Previews instantly below. Drop the PDF in your project folder and use the same filename here.</p>
     <form id="addDocForm">
       <div class="m-field"><label>Document title</label><input type="text" id="docTitle" required></div>
-      <div class="m-field"><label>PDF filename</label><input type="text" id="docPdf" placeholder="my-document.pdf"></div>
-      <div class="m-actions"><button type="submit" class="btn primary">Add Document</button></div>
+      <div class="m-field"><label>PDF file</label><input type="file" id="docPdf" accept="application/pdf" required></div>
+      <div class="m-actions"><button type="submit" class="btn primary">Upload Document</button></div>
+      <div id="docStatus" class="m-hint" style="display:none;"></div>
     </form>
   </div>
 </div>
@@ -1232,7 +1157,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <div class="eyebrow">08 · Field &amp; Project Photos</div>
         <h2 class="sec-title">Image Gallery</h2>
       </div>
-      <button class="add-card-btn glass" id="openAddImg"><i class="fa-solid fa-plus"></i> Add Photos</button>
+      <button class="add-card-btn glass admin-only" id="openAddImg"><i class="fa-solid fa-plus"></i> Add Photos</button>
     </div>
     <div class="filter-bar reveal" id="imgFilterBar">
       <button class="filter-btn glass active" data-imgfilter="all">All</button>
@@ -1262,7 +1187,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
   <div class="modal-box glass-strong">
     <span class="m-close" data-close="addImgModal"><i class="fa-solid fa-xmark"></i></span>
     <h3>Add Photos</h3>
-    <p class="modal-sub">Select any number of images. They preview instantly in the gallery below (this session). To keep them permanently, drop the files into <code>assets/gallery/images/&lt;category&gt;/</code> and paste the generated lines into <code>assets/gallery/images.json</code>.</p>
+    <p class="modal-sub">Select any number of images. Once signed in, these upload straight to your GitHub repo and go live for every visitor after the next Pages build.</p>
     <form id="addImgForm">
       <div class="m-field"><label>Category</label>
         <select id="imgCat">
@@ -1276,8 +1201,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
       <div class="m-field"><label>Choose photos (multiple allowed)</label><input type="file" id="imgFiles" accept="image/*" multiple></div>
       <div class="preview-thumbs" id="imgPreview"></div>
       <div class="m-actions"><button type="submit" class="btn primary">Add to Gallery</button></div>
-      <div class="m-json" id="imgJsonOut"></div>
-      <div class="m-copy" id="imgCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+      <div id="imgStatus" class="m-hint" style="display:none;"></div>
     </form>
   </div>
 </div>
@@ -1290,7 +1214,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <div class="eyebrow">08b · Field Footage</div>
         <h2 class="sec-title">Video Gallery</h2>
       </div>
-      <button class="add-card-btn glass" id="openAddVid"><i class="fa-solid fa-plus"></i> Add Videos</button>
+      <button class="add-card-btn glass admin-only" id="openAddVid"><i class="fa-solid fa-plus"></i> Add Videos</button>
     </div>
     <div class="filter-bar reveal" id="vidFilterBar">
       <button class="filter-btn glass active" data-vidfilter="all">All</button>
@@ -1312,7 +1236,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
   <div class="modal-box glass-strong">
     <span class="m-close" data-close="addVidModal"><i class="fa-solid fa-xmark"></i></span>
     <h3>Add Videos</h3>
-    <p class="modal-sub">Select any number of video files. They preview instantly below (this session). To keep them permanently, drop the files into <code>assets/gallery/videos/&lt;category&gt;/</code> and paste the generated lines into <code>assets/gallery/videos.json</code>.</p>
+    <p class="modal-sub">Select any number of video files. Once signed in, these upload straight to your GitHub repo and go live for every visitor after the next Pages build. Larger files take longer to upload — keep clips under ~40MB for reliability.</p>
     <form id="addVidForm">
       <div class="m-field"><label>Category</label>
         <select id="vidCat">
@@ -1329,8 +1253,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
       <div class="m-field"><label>Choose videos (multiple allowed)</label><input type="file" id="vidFiles" accept="video/*" multiple></div>
       <div class="preview-thumbs" id="vidPreview"></div>
       <div class="m-actions"><button type="submit" class="btn primary">Add to Gallery</button></div>
-      <div class="m-json" id="vidJsonOut"></div>
-      <div class="m-copy" id="vidCopyBtn"><i class="fa-solid fa-copy"></i> Copy JSON snippet</div>
+      <div id="vidStatus" class="m-hint" style="display:none;"></div>
     </form>
   </div>
 </div>
@@ -1345,7 +1268,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <h2 class="sec-title">Live GEE Applications</h2>
         <p class="sec-lead">Published Google Earth Engine apps &amp; dashboards — open live in a new tab.</p>
       </div>
-      <button class="add-card-btn glass" id="openAddGee"><i class="fa-solid fa-plus"></i> Add GEE App</button>
+      <button class="add-card-btn glass admin-only" id="openAddGee"><i class="fa-solid fa-plus"></i> Add GEE App</button>
     </div>
     <div class="gee-grid reveal" id="geeGrid"></div>
     <p class="m-hint reveal" style="margin-top:22px;max-width:640px;">Replace placeholder links with your actual published GEE App URLs (from <code>code.earthengine.google.com</code> → <em>Apps → Publish</em>), and your Power BI web GIS dashboard link.</p>
@@ -1357,7 +1280,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
   <div class="modal-box glass-strong">
     <span class="m-close" data-close="addGeeModal"><i class="fa-solid fa-xmark"></i></span>
     <h3>Add GEE App</h3>
-    <p class="modal-sub">Previews instantly below as a live card.</p>
+    <p class="modal-sub">Saved to your repo once signed in — visible to everyone after the next Pages build.</p>
     <form id="addGeeForm">
       <div class="m-field"><label>App / dashboard title</label><input type="text" id="geeTitle" required placeholder="e.g. Chilika NDVI Explorer"></div>
       <div class="m-field"><label>Short description</label><input type="text" id="geeDesc" placeholder="One line about what it shows"></div>
@@ -1366,6 +1289,7 @@ footer p.tag{color:var(--ink-faint);font-size:13px;}
         <select id="geeLinkedProject"><option value="">— None —</option></select>
       </div>
       <div class="m-actions"><button type="submit" class="btn primary">Add GEE App</button></div>
+      <div id="geeStatus" class="m-hint" style="display:none;"></div>
     </form>
   </div>
 </div>
@@ -1556,12 +1480,18 @@ function renderGallery(){
     </div>`).join('');
   attachLightboxHandlers();
   grid.querySelectorAll('.del-btn').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
+    btn.addEventListener('click', async (e)=>{
       e.stopPropagation();
+      if(!confirm('Delete this photo for everyone? This cannot be undone.')) return;
       const idx = +btn.getAttribute('data-delimg');
+      const removed = imgData[idx];
       imgData[idx] = null;
       imgData = imgData.filter(Boolean);
       renderGallery();
+      try{
+        await ghDeleteFromManifest('assets/gallery/images.json', removed, 'Delete gallery image');
+        ghToast('ok', 'Deleted — live for everyone after the next Pages build.');
+      }catch(err){ ghToast('err', 'Could not delete on GitHub: '+err.message); }
     });
   });
 }
@@ -1582,12 +1512,18 @@ function renderVideos(filter){
     </div>`).join('');
   attachVideoHandlers();
   grid.querySelectorAll('.del-btn').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
+    btn.addEventListener('click', async (e)=>{
       e.stopPropagation();
+      if(!confirm('Delete this video for everyone? This cannot be undone.')) return;
       const idx = +btn.getAttribute('data-delvid');
+      const removed = vidData[idx];
       vidData[idx] = null;
       vidData = vidData.filter(Boolean);
       renderVideos(document.querySelector('#vidFilterBar .filter-btn.active')?.getAttribute('data-vidfilter') || 'all');
+      try{
+        await ghDeleteFromManifest('assets/gallery/videos.json', removed, 'Delete gallery video');
+        ghToast('ok', 'Deleted — live for everyone after the next Pages build.');
+      }catch(err){ ghToast('err', 'Could not delete on GitHub: '+err.message); }
     });
   });
 }
@@ -1601,8 +1537,33 @@ async function loadManifests(){
     const res2 = await fetch('assets/gallery/videos.json');
     vidData = res2.ok ? await res2.json() : VID_FALLBACK;
   }catch(e){ vidData = VID_FALLBACK; }
+  try{
+    const res3 = await fetch('assets/data/projects.json');
+    projData = res3.ok ? await res3.json() : PROJ_FALLBACK;
+  }catch(e){ projData = PROJ_FALLBACK; }
+  try{
+    const res4 = await fetch('assets/data/publications.json');
+    pubData = res4.ok ? await res4.json() : PUB_FALLBACK;
+  }catch(e){ pubData = PUB_FALLBACK; }
+  try{
+    const res5 = await fetch('assets/data/certificates.json');
+    certData = res5.ok ? await res5.json() : CERT_FALLBACK;
+  }catch(e){ certData = CERT_FALLBACK; }
+  try{
+    const res6 = await fetch('assets/data/documents.json');
+    docData = res6.ok ? await res6.json() : DOC_FALLBACK;
+  }catch(e){ docData = DOC_FALLBACK; }
+  try{
+    const res7 = await fetch('assets/data/gee-apps.json');
+    geeData = res7.ok ? await res7.json() : GEE_FALLBACK;
+  }catch(e){ geeData = GEE_FALLBACK; }
   renderGallery();
   renderVideos('all');
+  renderProjects();
+  renderPublications();
+  renderCertificates();
+  renderDocuments();
+  renderGee();
 }
 loadManifests();
 
@@ -1711,190 +1672,477 @@ document.querySelectorAll('.pdf-open').forEach(a=>{
   a.addEventListener('click', ()=> openPdf(a.getAttribute('data-pdf')));
 });
 
-/* ---------- Add Project / Report (client-side preview + JSON generator) ---------- */
-document.getElementById('addProjectForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const title = document.getElementById('apTitle').value.trim();
-  const desc = document.getElementById('apDesc').value.trim();
-  const cat = document.getElementById('apCat').value;
-  const tags = document.getElementById('apTags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  const pdf = document.getElementById('apPdf').value.trim();
-  if(!title) return;
-  const card = document.createElement('div');
-  card.className = 'proj-card glass show can-delete';
-  card.setAttribute('data-cat', cat);
-  card.innerHTML = `
-    <i class="fa-solid fa-xmark del-btn"></i>
-    <div class="proj-thumb"><i class="fa-solid fa-star"></i></div>
-    <div class="proj-body">
-      <h3>${title}</h3>
-      <p class="oneline">${desc}</p>
-      <div class="tag-row">${tags.map(t=>`<span>${t}</span>`).join('')}</div>
-      ${pdf ? `<div class="related-row"><a href="javascript:void(0)" class="pdf-open" data-pdf="${pdf}"><i class="fa-solid fa-eye"></i> View PDF</a></div>` : ''}
-    </div>`;
-  document.getElementById('projGrid').prepend(card);
-  wireStaticDeletes(card);
-  if(pdf){ card.querySelector('.pdf-open').addEventListener('click', ()=> openPdf(pdf)); }
-  const json = JSON.stringify({ title, desc, category:cat, tags, pdf: pdf || null }, null, 2);
-  const out = document.getElementById('apJsonOut');
-  out.textContent = json; out.classList.add('show');
-  document.getElementById('apCopyBtn').classList.add('show');
+/* ============================================================
+   GITHUB API LAYER — real persistence + admin-only writes
+   ============================================================ */
+const GH_API = 'https://api.github.com';
+function ghCreds(){
+  try{ const raw = sessionStorage.getItem('ghAdmin'); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+}
+function requireAdmin(){
+  const c = ghCreds();
+  if(!c){ ghToast('err', 'Please sign in as admin first (lock icon, bottom-left).'); openModal('adminModal'); return null; }
+  return c;
+}
+function ghToast(type, msg){
+  const el = document.getElementById('ghToast');
+  el.className = 'show ' + type;
+  el.innerHTML = `<i class="fa-solid ${type==='ok'?'fa-circle-check':'fa-triangle-exclamation'}"></i><span>${msg}</span>`;
+  clearTimeout(window._ghToastTimer);
+  window._ghToastTimer = setTimeout(()=> el.classList.remove('show'), 6000);
+}
+function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = ()=> resolve(r.result.split(',')[1]);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+function utf8ToBase64(str){ return btoa(unescape(encodeURIComponent(str))); }
+function base64ToUtf8(b64){ return decodeURIComponent(escape(atob(b64.replace(/\n/g,'')))); }
+
+async function ghGetFile(path){
+  const c = ghCreds(); if(!c) return { sha:null, json:null };
+  const res = await fetch(`${GH_API}/repos/${c.owner}/${c.repo}/contents/${path}?ref=${c.branch}`, {
+    headers:{ Authorization:`token ${c.token}` }
+  });
+  if(res.status === 404) return { sha:null, json:null };
+  if(!res.ok) throw new Error('read failed ('+res.status+')');
+  const data = await res.json();
+  return { sha:data.sha, json: JSON.parse(base64ToUtf8(data.content)) };
+}
+async function ghPutJSON(path, obj, message){
+  const c = requireAdmin(); if(!c) throw new Error('not signed in');
+  const existing = await ghGetFile(path);
+  const body = { message, content: utf8ToBase64(JSON.stringify(obj, null, 2)), branch: c.branch };
+  if(existing.sha) body.sha = existing.sha;
+  const res = await fetch(`${GH_API}/repos/${c.owner}/${c.repo}/contents/${path}`, {
+    method:'PUT',
+    headers:{ Authorization:`token ${c.token}`, 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok) throw new Error('write failed ('+res.status+')');
+  return res.json();
+}
+async function ghPutFile(path, file, message){
+  const c = requireAdmin(); if(!c) throw new Error('not signed in');
+  const b64 = await fileToBase64(file);
+  const body = { message, content: b64, branch: c.branch };
+  const res = await fetch(`${GH_API}/repos/${c.owner}/${c.repo}/contents/${path}`, {
+    method:'PUT',
+    headers:{ Authorization:`token ${c.token}`, 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok) throw new Error('upload failed ('+res.status+')');
+  return res.json();
+}
+async function ghDeleteFromManifest(manifestPath, itemToRemove, message){
+  const c = requireAdmin(); if(!c) throw new Error('not signed in');
+  const existing = await ghGetFile(manifestPath);
+  const list = (existing.json || []).filter(x => JSON.stringify(x) !== JSON.stringify(itemToRemove));
+  const body = { message, content: utf8ToBase64(JSON.stringify(list, null, 2)), branch: c.branch };
+  if(existing.sha) body.sha = existing.sha;
+  const res = await fetch(`${GH_API}/repos/${c.owner}/${c.repo}/contents/${manifestPath}`, {
+    method:'PUT',
+    headers:{ Authorization:`token ${c.token}`, 'Content-Type':'application/json' },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok) throw new Error('delete failed ('+res.status+')');
+  return res.json();
+}
+function slugFile(name){ return name.replace(/[^a-zA-Z0-9._-]/g,'_'); }
+
+/* ---------- Admin sign-in / sign-out ---------- */
+document.getElementById('adminBtn').addEventListener('click', ()=>{
+  if(document.body.classList.contains('is-admin')){ return; }
+  openModal('adminModal');
 });
-document.getElementById('apCopyBtn').addEventListener('click', function(){
-  navigator.clipboard.writeText(document.getElementById('apJsonOut').textContent);
-  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+document.getElementById('adminForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const owner = document.getElementById('ghOwner').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const branch = document.getElementById('ghBranch').value.trim() || 'main';
+  const token = document.getElementById('ghToken').value.trim();
+  try{
+    const res = await fetch(`${GH_API}/repos/${owner}/${repo}`, { headers:{ Authorization:`token ${token}` } });
+    if(!res.ok) throw new Error('Repo/token check failed ('+res.status+'). Check the token has Contents: Read and write access.');
+    const info = await res.json();
+    sessionStorage.setItem('ghAdmin', JSON.stringify({ owner, repo, branch, token }));
+    document.body.classList.add('is-admin');
+    closeModal('adminModal');
+    ghToast('ok', 'Signed in — Add/Delete controls are now visible, only in this browser tab.');
+  }catch(err){
+    ghToast('err', err.message);
+  }
+});
+document.getElementById('adminSignOut').addEventListener('click', ()=>{
+  sessionStorage.removeItem('ghAdmin');
+  document.body.classList.remove('is-admin');
+  ghToast('ok', 'Signed out.');
+});
+(function restoreAdmin(){
+  if(ghCreds()) document.body.classList.add('is-admin');
+})();
+
+/* ============================================================
+   PROJECTS & TECHNICAL REPORTS (manifest-driven)
+   ============================================================ */
+const PROJ_FALLBACK = [
+  { title:"Wetland &amp; Coastal Monitoring — Chilika, Ansupa &amp; Tampara", desc:"Satellite, DGPS, bathymetric &amp; drone data integration.", category:"wetland", tags:["ArcGIS Pro","ERDAS Imagine","GEE","QGIS"], pdf:null, gallery:"gis", video:"rsgis" },
+  { title:"Annual Biodiversity Surveys — Chilika Lagoon", desc:"6+ years of bird, dolphin &amp; habitat monitoring.", category:"survey", tags:["Hydrophone","Field Ecology","DGPS"], pdf:null, gallery:null, video:"others" },
+  { title:"Forest Boundary &amp; Cadastral Mapping — Jharkhand", desc:"DGPS-based boundary &amp; forest cover mapping.", category:"survey", tags:["DGPS Static/RTK","Cadastral"], pdf:null, gallery:"dgps", video:null },
+  { title:"Central Sanitation Survey — JICA Project, Cuttack", desc:"Household-level sanitation &amp; water-supply GIS survey.", category:"survey", tags:["Survey123","Household Data"], pdf:null, gallery:null, video:null },
+  { title:"Drone-based Survey &amp; Photogrammetry", desc:"NSQF L3 certified aerial mapping with Agisoft Metashape.", category:"drone", tags:["Drone Survey","Agisoft Metashape"], pdf:null, gallery:"drone", video:"drone" },
+  { title:"GIS/GPS Capacity-Building Training", desc:"200+ students &amp; professionals trained.", category:"training", tags:["Training","Capacity Building"], pdf:null, gallery:null, video:null },
+  { title:"Seasonal Water Volume Fluctuations — Chilika Lagoon (2023–2025)", desc:"MNDWI-derived water extent &amp; bathymetric interpolation.", category:"wetland report", tags:["MNDWI","Landsat 8/9","Bathymetry"], pdf:"Seasonal_Water_Volume_Fluctuations_in_Chilika__India__2023_2025_.pdf", gallery:null, video:null },
+  { title:"Block-wise Earthen Gherry Mapping — Puri, Ganjam &amp; Khordha", desc:"2021–2026 change detection across coastal blocks.", category:"wetland report", tags:["Change Detection","GIS Mapping"], pdf:"Block_wise_Earthern_Gherry.pdf", gallery:null, video:null },
+  { title:"Soil Erosion Modelling using RUSLE in QGIS", desc:"Catchment-scale soil erosion risk modelling.", category:"wetland report", tags:["RUSLE","QGIS"], pdf:"Soil_Erosion_Modelling.pdf", gallery:null, video:null },
+  { title:"Chilika Lake — Integrated Management Plan 2025–2030", desc:"Lagoon-wide management &amp; planning document.", category:"wetland report", tags:["Management Plan"], pdf:"IMP_Chilika_lake_2025-2030__28_10_2025.pdf", gallery:null, video:null }
+];
+let projData = [];
+
+function renderProjects(){
+  const grid = document.getElementById('projGrid');
+  const activeFilter = document.querySelector('#projects .filter-btn.active')?.getAttribute('data-filter') || 'all';
+  grid.innerHTML = projData.map((p,i)=>{
+    const show = (activeFilter==='all' || (p.category||'').split(' ').includes(activeFilter));
+    const related = [];
+    if(p.gallery) related.push(`<a href="#gallery" data-jump="gallery|imgFilterBar|data-imgfilter|${p.gallery}"><i class="fa-solid fa-image"></i> Gallery</a>`);
+    if(p.video) related.push(`<a href="#videos" data-jump="videos|vidFilterBar|data-vidfilter|${p.video}"><i class="fa-solid fa-video"></i> Videos</a>`);
+    if(p.pdf) related.push(`<a href="javascript:void(0)" class="pdf-open" data-pdf="${p.pdf}"><i class="fa-solid fa-eye"></i> View PDF</a><a href="${p.pdf}" download><i class="fa-solid fa-download"></i> Download</a>`);
+    return `<div class="proj-card glass can-delete ${show?'show':''}" data-cat="${p.category||''}" data-idx="${i}">
+      <i class="fa-solid fa-xmark del-btn" data-delproj="${i}"></i>
+      <div class="proj-thumb"><i class="fa-solid ${p.icon||'fa-star'}"></i></div>
+      <div class="proj-body">
+        <h3>${p.title}</h3>
+        <p class="oneline">${p.desc||''}</p>
+        <div class="tag-row">${(p.tags||[]).map(t=>`<span>${t}</span>`).join('')}</div>
+        ${related.length ? `<div class="related-row">${related.join('')}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('[data-jump]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const [sectionId, barId, attr, val] = a.getAttribute('data-jump').split('|');
+      const bar = document.getElementById(barId);
+      if(bar){ const btn = bar.querySelector(`[${attr}="${val}"]`); if(btn) btn.click(); }
+      document.getElementById(sectionId).scrollIntoView({behavior:'smooth'});
+    });
+  });
+  grid.querySelectorAll('.pdf-open').forEach(a=> a.addEventListener('click', ()=> openPdf(a.getAttribute('data-pdf'))));
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      if(!confirm('Delete this project/report for everyone? This cannot be undone.')) return;
+      const idx = +btn.getAttribute('data-delproj');
+      const removed = projData[idx];
+      projData[idx] = null; projData = projData.filter(Boolean);
+      renderProjects();
+      try{ await ghDeleteFromManifest('assets/data/projects.json', removed, 'Delete project: '+removed.title); ghToast('ok','Deleted — live after next Pages build.'); }
+      catch(err){ ghToast('err','Could not delete on GitHub: '+err.message); }
+    });
+  });
+}
+document.querySelectorAll('#projects .filter-btn').forEach(btn=>{
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('#projects .filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    renderProjects();
+  });
 });
 
-/* ---------- Add Publication ---------- */
-document.getElementById('addPubForm').addEventListener('submit', function(e){
+document.getElementById('openAddProject').addEventListener('click', ()=> openModal('addProjectModal'));
+document.getElementById('addProjectForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  const title = document.getElementById('pubTitle').value.trim();
-  const meta = document.getElementById('pubMeta').value.trim();
-  const link = document.getElementById('pubLink').value.trim();
-  const pdf = document.getElementById('pubPdf').value.trim();
-  if(!title) return;
-  const card = document.createElement('div');
-  card.className = 'pub-card glass can-delete';
-  card.innerHTML = `
-    <i class="fa-solid fa-xmark del-btn"></i>
-    <h3>${title}</h3>
-    <div class="meta">${meta}</div>
-    <div class="related-row" style="border-top:none;padding-top:0;margin-top:10px;">
-      ${link ? `<a href="${link}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Online Link</a>` : ''}
-      ${pdf ? `<a href="javascript:void(0)" class="pdf-open" data-pdf="${pdf}"><i class="fa-solid fa-eye"></i> View PDF</a>` : ''}
-    </div>`;
-  document.getElementById('pubGrid').appendChild(card);
-  wireStaticDeletes(card);
-  if(pdf){ card.querySelector('.pdf-open').addEventListener('click', ()=> openPdf(pdf)); }
-  const json = JSON.stringify({ title, meta, link: link || null, pdf: pdf || null }, null, 2);
-  const out = document.getElementById('pubJsonOut');
-  out.textContent = json; out.classList.add('show');
-  document.getElementById('pubCopyBtn').classList.add('show');
-});
-document.getElementById('pubCopyBtn').addEventListener('click', function(){
-  navigator.clipboard.writeText(document.getElementById('pubJsonOut').textContent);
-  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+  const c = requireAdmin(); if(!c) return;
+  const status = document.getElementById('apStatus'); status.style.display='block'; status.textContent = 'Uploading…';
+  try{
+    const title = document.getElementById('apTitle').value.trim();
+    const desc = document.getElementById('apDesc').value.trim();
+    const cat = document.getElementById('apCat').value;
+    const tags = document.getElementById('apTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+    const pdfFile = document.getElementById('apPdf').files[0];
+    let pdfPath = null;
+    if(pdfFile){
+      pdfPath = 'assets/documents/' + slugFile(pdfFile.name);
+      await ghPutFile(pdfPath, pdfFile, 'Add project report PDF: '+pdfFile.name);
+    }
+    const entry = { title, desc, category:cat, tags, pdf: pdfPath, gallery:null, video:null };
+    const existing = await ghGetFile('assets/data/projects.json');
+    const list = existing.json || [];
+    list.unshift(entry);
+    await ghPutJSON('assets/data/projects.json', list, 'Add project: '+title);
+    projData.unshift(entry);
+    renderProjects();
+    ghToast('ok','Published — live for every visitor after the next Pages build.');
+    closeModal('addProjectModal'); this.reset(); status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
 });
 
-/* ---------- Add Photos (multi-file preview + JSON generator) ---------- */
+/* ============================================================
+   PUBLICATIONS
+   ============================================================ */
+const PUB_FALLBACK = [
+  { title:"Assessing Urban Heat Island Impact and Identifying Vulnerability Zones Through Geospatial and Geo-statistical Techniques", meta:"Nandi, D., Sing, D., Banik, A., Mishra, P.S. · International Journal of Conservation Science, Vol. 15, Issue 3, 2024, pp. 1577–1592", link:"https://doi.org/10.36868/IJCS.2024.03.26", pdf:null }
+];
+let pubData = [];
+
+function renderPublications(){
+  const grid = document.getElementById('pubGrid');
+  grid.innerHTML = pubData.map((p,i)=>`
+    <div class="pub-card glass can-delete">
+      <i class="fa-solid fa-xmark del-btn" data-delpub="${i}"></i>
+      <h3>${p.title}</h3>
+      <div class="meta">${p.meta||''}</div>
+      <div class="related-row" style="border-top:none;padding-top:0;margin-top:10px;">
+        ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Online Link</a>` : ''}
+        ${p.pdf ? `<a href="javascript:void(0)" class="pdf-open" data-pdf="${p.pdf}"><i class="fa-solid fa-eye"></i> View PDF</a>` : ''}
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('.pdf-open').forEach(a=> a.addEventListener('click', ()=> openPdf(a.getAttribute('data-pdf'))));
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      if(!confirm('Delete this publication for everyone?')) return;
+      const idx = +btn.getAttribute('data-delpub');
+      const removed = pubData[idx];
+      pubData[idx] = null; pubData = pubData.filter(Boolean);
+      renderPublications();
+      try{ await ghDeleteFromManifest('assets/data/publications.json', removed, 'Delete publication: '+removed.title); ghToast('ok','Deleted — live after next Pages build.'); }
+      catch(err){ ghToast('err','Could not delete on GitHub: '+err.message); }
+    });
+  });
+}
+document.getElementById('openAddPub').addEventListener('click', ()=> openModal('addPubModal'));
+document.getElementById('addPubForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const c = requireAdmin(); if(!c) return;
+  const status = document.getElementById('pubStatus'); status.style.display='block'; status.textContent = 'Uploading…';
+  try{
+    const title = document.getElementById('pubTitle').value.trim();
+    const meta = document.getElementById('pubMeta').value.trim();
+    const link = document.getElementById('pubLink').value.trim();
+    const pdfFile = document.getElementById('pubPdf').files[0];
+    let pdfPath = null;
+    if(pdfFile){
+      pdfPath = 'assets/documents/' + slugFile(pdfFile.name);
+      await ghPutFile(pdfPath, pdfFile, 'Add publication PDF: '+pdfFile.name);
+    }
+    const entry = { title, meta, link: link || null, pdf: pdfPath };
+    const existing = await ghGetFile('assets/data/publications.json');
+    const list = existing.json || [];
+    list.push(entry);
+    await ghPutJSON('assets/data/publications.json', list, 'Add publication: '+title);
+    pubData.push(entry);
+    renderPublications();
+    ghToast('ok','Published — live for every visitor after the next Pages build.');
+    closeModal('addPubModal'); this.reset(); status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
+});
+
+/* ============================================================
+   CERTIFICATES
+   ============================================================ */
+const CERT_FALLBACK = [
+  { title:"Drone Pilot (Junior) NSQF L3", pdf:"Drone_Certificate.pdf", icon:"fa-award" },
+  { title:"Drone Pilot — Result / Mark Sheet", pdf:"Drone_Result.pdf", icon:"fa-file-lines" },
+  { title:"ISRO/IIRS — Automated Feature Extraction", pdf:"ISRO_Automated_Feature_Extraction_from_High_Resoluation_Images.pdf", icon:"fa-satellite" },
+  { title:"Advanced Google Earth Engine (GEE)", pdf:"Advanced_Google_Earth_Engine.pdf", icon:"fa-earth-asia" },
+  { title:"ArcPy for Python Developers", pdf:"Arcpy_for_Python_Developers_using_ArcGIS_Pro.pdf", icon:"fa-python" },
+  { title:"2 &amp; 3D Drone Modeling — Agisoft Metashape", pdf:"Drone_2D___3D_Modeling_Agisoft_Metashape.pdf", icon:"fa-cube" },
+  { title:"Rainfall Indices for MCDM Models", pdf:"Rainfall_Indices_for_MCD.pdf", icon:"fa-cloud-rain" },
+  { title:"Data Analysis with R Programming", pdf:"R_Programming_Certificate.pdf", icon:"fa-chart-simple" },
+  { title:"Data Analysis with SPSS", pdf:"Data_Analysis_By_SPSS_Certificate.pdf", icon:"fa-chart-simple" },
+  { title:"Soil Erosion Modelling (RUSLE)", pdf:"Soil_Erosion_Modelling.pdf", icon:"fa-mountain" },
+  { title:"AI Smart Prompts Mastery", pdf:"certificate_of_CHATGPT.pdf", icon:"fa-robot" },
+  { title:"Ultimate ChatGPT Prompts Pack", pdf:"CHAT_GPT_7_certificate.pdf", icon:"fa-robot" }
+];
+let certData = [];
+
+function renderCertificates(){
+  const grid = document.getElementById('certGrid');
+  grid.innerHTML = certData.map((c,i)=>`
+    <div class="doc-card glass can-delete">
+      <i class="fa-solid fa-xmark del-btn" data-delcert="${i}"></i>
+      <div class="row"><i class="fa-solid ${c.icon||'fa-award'}"></i><h4>${c.title}</h4></div>
+      ${c.pdf ? `<a href="${c.pdf}" target="_blank">↓ View PDF</a>` : ''}
+    </div>`).join('');
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      if(!confirm('Delete this certificate for everyone?')) return;
+      const idx = +btn.getAttribute('data-delcert');
+      const removed = certData[idx];
+      certData[idx] = null; certData = certData.filter(Boolean);
+      renderCertificates();
+      try{ await ghDeleteFromManifest('assets/data/certificates.json', removed, 'Delete certificate: '+removed.title); ghToast('ok','Deleted — live after next Pages build.'); }
+      catch(err){ ghToast('err','Could not delete on GitHub: '+err.message); }
+    });
+  });
+}
+document.getElementById('openAddCert').addEventListener('click', ()=> openModal('addCertModal'));
+document.getElementById('addCertForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const c = requireAdmin(); if(!c) return;
+  const status = document.getElementById('certStatus'); status.style.display='block'; status.textContent = 'Uploading…';
+  try{
+    const title = document.getElementById('certTitle').value.trim();
+    const pdfFile = document.getElementById('certPdf').files[0];
+    if(!pdfFile) throw new Error('Choose a PDF file.');
+    const pdfPath = 'assets/documents/' + slugFile(pdfFile.name);
+    await ghPutFile(pdfPath, pdfFile, 'Add certificate PDF: '+pdfFile.name);
+    const entry = { title, pdf: pdfPath, icon:'fa-award' };
+    const existing = await ghGetFile('assets/data/certificates.json');
+    const list = existing.json || [];
+    list.unshift(entry);
+    await ghPutJSON('assets/data/certificates.json', list, 'Add certificate: '+title);
+    certData.unshift(entry);
+    renderCertificates();
+    ghToast('ok','Published — live for every visitor after the next Pages build.');
+    closeModal('addCertModal'); this.reset(); status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
+});
+
+/* ============================================================
+   DOCUMENTS
+   ============================================================ */
+const DOC_FALLBACK = [
+  { title:"Full CV, Cover Letter &amp; Certificates", pdf:"ashim-banik-cv.pdf" }
+];
+let docData = [];
+
+function renderDocuments(){
+  const grid = document.getElementById('docGrid');
+  grid.innerHTML = docData.map((d,i)=>`
+    <div class="doc-card glass can-delete">
+      <i class="fa-solid fa-xmark del-btn" data-deldoc="${i}"></i>
+      <div class="row"><i class="fa-solid fa-file-lines"></i><h4>${d.title}</h4></div>
+      ${d.pdf ? `<a href="${d.pdf}" target="_blank">↓ Download PDF</a>` : ''}
+    </div>`).join('');
+  grid.querySelectorAll('.del-btn').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      if(!confirm('Delete this document for everyone?')) return;
+      const idx = +btn.getAttribute('data-deldoc');
+      const removed = docData[idx];
+      docData[idx] = null; docData = docData.filter(Boolean);
+      renderDocuments();
+      try{ await ghDeleteFromManifest('assets/data/documents.json', removed, 'Delete document: '+removed.title); ghToast('ok','Deleted — live after next Pages build.'); }
+      catch(err){ ghToast('err','Could not delete on GitHub: '+err.message); }
+    });
+  });
+}
+document.getElementById('openAddDoc').addEventListener('click', ()=> openModal('addDocModal'));
+document.getElementById('addDocForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const c = requireAdmin(); if(!c) return;
+  const status = document.getElementById('docStatus'); status.style.display='block'; status.textContent = 'Uploading…';
+  try{
+    const title = document.getElementById('docTitle').value.trim();
+    const pdfFile = document.getElementById('docPdf').files[0];
+    if(!pdfFile) throw new Error('Choose a PDF file.');
+    const pdfPath = 'assets/documents/' + slugFile(pdfFile.name);
+    await ghPutFile(pdfPath, pdfFile, 'Add document PDF: '+pdfFile.name);
+    const entry = { title, pdf: pdfPath };
+    const existing = await ghGetFile('assets/data/documents.json');
+    const list = existing.json || [];
+    list.unshift(entry);
+    await ghPutJSON('assets/data/documents.json', list, 'Add document: '+title);
+    docData.unshift(entry);
+    renderDocuments();
+    ghToast('ok','Published — live for every visitor after the next Pages build.');
+    closeModal('addDocModal'); this.reset(); status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
+});
+
+/* ============================================================
+   IMAGE GALLERY UPLOAD (real GitHub commit)
+   ============================================================ */
 document.getElementById('imgFiles').addEventListener('change', function(){
   const preview = document.getElementById('imgPreview');
   preview.innerHTML = '';
   Array.from(this.files).forEach(f=>{
-    const url = URL.createObjectURL(f);
     const img = document.createElement('img');
-    img.src = url;
+    img.src = URL.createObjectURL(f);
     preview.appendChild(img);
   });
 });
-document.getElementById('addImgForm').addEventListener('submit', function(e){
+document.getElementById('addImgForm').addEventListener('submit', async function(e){
   e.preventDefault();
+  const c = requireAdmin(); if(!c) return;
   const cat = document.getElementById('imgCat').value;
   const caption = document.getElementById('imgCaption').value.trim();
-  const files = document.getElementById('imgFiles').files;
+  const files = Array.from(document.getElementById('imgFiles').files);
   if(!files.length) return;
-  const lines = [];
-  Array.from(files).forEach(f=>{
-    const url = URL.createObjectURL(f);
-    imgData.unshift({ file:url, category:cat, caption: caption || f.name });
-    lines.push(JSON.stringify({ file: f.name, category:cat, caption: caption || '' }));
-  });
-  renderGallery();
-  const out = document.getElementById('imgJsonOut');
-  out.textContent = '[\n  ' + lines.join(',\n  ') + '\n]';
-  out.classList.add('show');
-  document.getElementById('imgCopyBtn').classList.add('show');
-});
-document.getElementById('imgCopyBtn').addEventListener('click', function(){
-  navigator.clipboard.writeText(document.getElementById('imgJsonOut').textContent);
-  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+  const status = document.getElementById('imgStatus'); status.style.display='block';
+  try{
+    const existing = await ghGetFile('assets/gallery/images.json');
+    const list = existing.json || [];
+    for(let i=0;i<files.length;i++){
+      const f = files[i];
+      status.textContent = `Uploading ${i+1} of ${files.length}: ${f.name}…`;
+      const path = `assets/gallery/images/${cat}/${slugFile(f.name)}`;
+      await ghPutFile(path, f, 'Add gallery image: '+f.name);
+      list.unshift({ file: path, category:cat, caption: caption || f.name });
+    }
+    await ghPutJSON('assets/gallery/images.json', list, `Add ${files.length} gallery image(s)`);
+    imgData = list;
+    renderGallery();
+    ghToast('ok', `Uploaded ${files.length} photo(s) — live for every visitor after the next Pages build.`);
+    closeModal('addImgModal'); this.reset(); document.getElementById('imgPreview').innerHTML=''; status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
 });
 
-/* ---------- Add Videos (multi-file preview + JSON generator) ---------- */
+/* ============================================================
+   VIDEO GALLERY UPLOAD (real GitHub commit)
+   ============================================================ */
 document.getElementById('vidFiles').addEventListener('change', function(){
   const preview = document.getElementById('vidPreview');
   preview.innerHTML = '';
   Array.from(this.files).forEach(f=>{
-    const url = URL.createObjectURL(f);
     const v = document.createElement('video');
-    v.src = url; v.muted = true;
+    v.src = URL.createObjectURL(f); v.muted = true;
     preview.appendChild(v);
   });
 });
-document.getElementById('addVidForm').addEventListener('submit', function(e){
+document.getElementById('addVidForm').addEventListener('submit', async function(e){
   e.preventDefault();
+  const c = requireAdmin(); if(!c) return;
   const cat = document.getElementById('vidCat').value;
   const title = document.getElementById('vidTitle').value.trim();
-  const files = document.getElementById('vidFiles').files;
+  const files = Array.from(document.getElementById('vidFiles').files);
   if(!files.length) return;
-  const lines = [];
-  Array.from(files).forEach(f=>{
-    const url = URL.createObjectURL(f);
-    vidData.unshift({ file:url, category:cat, title: title || f.name, desc:'', poster:'' });
-    lines.push(JSON.stringify({ file: f.name, category:cat, title: title || '', desc:'', poster:'' }));
-  });
-  renderVideos(document.querySelector('#vidFilterBar .filter-btn.active')?.getAttribute('data-vidfilter') || 'all');
-  const out = document.getElementById('vidJsonOut');
-  out.textContent = '[\n  ' + lines.join(',\n  ') + '\n]';
-  out.classList.add('show');
-  document.getElementById('vidCopyBtn').classList.add('show');
-});
-document.getElementById('vidCopyBtn').addEventListener('click', function(){
-  navigator.clipboard.writeText(document.getElementById('vidJsonOut').textContent);
-  this.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
-});
-
-/* ---------- Generic delete wiring for static (non-manifest) cards ---------- */
-function wireStaticDeletes(container){
-  container.querySelectorAll('.can-delete > .del-btn').forEach(btn=>{
-    if(btn.dataset.wired) return;
-    btn.dataset.wired = '1';
-    btn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      btn.closest('.can-delete').remove();
-    });
-  });
-}
-wireStaticDeletes(document);
-
-/* ---------- Add Certificate ---------- */
-document.getElementById('openAddCert').addEventListener('click', ()=> openModal('addCertModal'));
-document.getElementById('addCertForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const title = document.getElementById('certTitle').value.trim();
-  const pdf = document.getElementById('certPdf').value.trim();
-  if(!title) return;
-  const card = document.createElement('div');
-  card.className = 'doc-card glass can-delete';
-  card.innerHTML = `<i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-award"></i><h4>${title}</h4></div>${pdf ? `<a href="${pdf}" target="_blank">↓ View PDF</a>` : ''}`;
-  document.getElementById('certGrid').prepend(card);
-  wireStaticDeletes(card);
-  closeModal('addCertModal');
-  this.reset();
+  const status = document.getElementById('vidStatus'); status.style.display='block';
+  try{
+    const existing = await ghGetFile('assets/gallery/videos.json');
+    const list = existing.json || [];
+    for(let i=0;i<files.length;i++){
+      const f = files[i];
+      status.textContent = `Uploading ${i+1} of ${files.length}: ${f.name}…`;
+      const path = `assets/gallery/videos/${cat}/${slugFile(f.name)}`;
+      await ghPutFile(path, f, 'Add gallery video: '+f.name);
+      list.unshift({ file: path, category:cat, title: title || f.name, desc:'', poster:'' });
+    }
+    await ghPutJSON('assets/gallery/videos.json', list, `Add ${files.length} gallery video(s)`);
+    vidData = list;
+    renderVideos(document.querySelector('#vidFilterBar .filter-btn.active')?.getAttribute('data-vidfilter') || 'all');
+    ghToast('ok', `Uploaded ${files.length} video(s) — live for every visitor after the next Pages build.`);
+    closeModal('addVidModal'); this.reset(); document.getElementById('vidPreview').innerHTML=''; status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
 });
 
-/* ---------- Add Document ---------- */
-document.getElementById('openAddDoc').addEventListener('click', ()=> openModal('addDocModal'));
-document.getElementById('addDocForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const title = document.getElementById('docTitle').value.trim();
-  const pdf = document.getElementById('docPdf').value.trim();
-  if(!title) return;
-  const card = document.createElement('div');
-  card.className = 'doc-card glass can-delete';
-  card.innerHTML = `<i class="fa-solid fa-xmark del-btn"></i><div class="row"><i class="fa-solid fa-file-lines"></i><h4>${title}</h4></div>${pdf ? `<a href="${pdf}" target="_blank">↓ View PDF</a>` : ''}`;
-  document.getElementById('docGrid').prepend(card);
-  wireStaticDeletes(card);
-  closeModal('addDocModal');
-  this.reset();
-});
-
-/* ---------- GEE Apps (data-driven, with delete + linked-project reference) ---------- */
-let geeData = [
-  { title:"Chilika Shoreline & MNDWI Water Extent Tool", desc:"Interactive MNDWI water-extent and shoreline-change explorer for Chilika Lagoon.", url:"https://YOUR-GEE-USERNAME.users.earthengine.app/view/chilika-shoreline", icon:"fa-water", linked:"" },
+/* ============================================================
+   GEE APPS (manifest-driven, with delete + linked-project reference)
+   ============================================================ */
+const GEE_FALLBACK = [
+  { title:"Chilika Shoreline &amp; MNDWI Water Extent Tool", desc:"Interactive MNDWI water-extent and shoreline-change explorer for Chilika Lagoon.", url:"https://YOUR-GEE-USERNAME.users.earthengine.app/view/chilika-shoreline", icon:"fa-water", linked:"" },
   { title:"Seasonal Lagoon Water Volume Viewer", desc:"Browse seasonal water-extent and volume estimates across Chilika (2023–2025).", url:"https://YOUR-GEE-USERNAME.users.earthengine.app/view/lagoon-water-volume", icon:"fa-chart-area", linked:"" },
   { title:"Power BI — Statistical Web GIS Dashboard Architecture", desc:"Reference architecture for a statistical Web GIS dashboard built on Power BI.", url:"https://app.powerbi.com/YOUR-WORKSPACE/statistical-webgis-dashboard", icon:"fa-chart-column", linked:"" }
 ];
+let geeData = [];
+
 function renderGee(){
   const grid = document.getElementById('geeGrid');
   grid.innerHTML = geeData.map((g,i)=>`
@@ -1907,32 +2155,43 @@ function renderGee(){
       <a href="${g.url}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live App</a>
     </div>`).join('');
   grid.querySelectorAll('.del-btn').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
+    btn.addEventListener('click', async (e)=>{
       e.stopPropagation();
-      geeData[+btn.getAttribute('data-delgee')] = null;
-      geeData = geeData.filter(Boolean);
+      if(!confirm('Delete this GEE app card for everyone?')) return;
+      const idx = +btn.getAttribute('data-delgee');
+      const removed = geeData[idx];
+      geeData[idx] = null; geeData = geeData.filter(Boolean);
       renderGee();
+      try{ await ghDeleteFromManifest('assets/data/gee-apps.json', removed, 'Delete GEE app: '+removed.title); ghToast('ok','Deleted — live after next Pages build.'); }
+      catch(err){ ghToast('err','Could not delete on GitHub: '+err.message); }
     });
   });
 }
-renderGee();
-
 document.getElementById('openAddGee').addEventListener('click', ()=>{
   const sel = document.getElementById('geeLinkedProject');
-  sel.innerHTML = '<option value="">— None —</option>' + Array.from(document.querySelectorAll('#projGrid .proj-body h3')).map(h=>`<option>${h.textContent}</option>`).join('');
+  sel.innerHTML = '<option value="">— None —</option>' + projData.map(p=>`<option>${p.title}</option>`).join('');
   openModal('addGeeModal');
 });
-document.getElementById('addGeeForm').addEventListener('submit', function(e){
+document.getElementById('addGeeForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  const title = document.getElementById('geeTitle').value.trim();
-  const desc = document.getElementById('geeDesc').value.trim();
-  const url = document.getElementById('geeUrl').value.trim();
-  const linked = document.getElementById('geeLinkedProject').value;
-  if(!title || !url) return;
-  geeData.unshift({ title, desc, url, icon:'fa-earth-asia', linked });
-  renderGee();
-  closeModal('addGeeModal');
-  this.reset();
+  const c = requireAdmin(); if(!c) return;
+  const status = document.getElementById('geeStatus'); status.style.display='block'; status.textContent = 'Saving…';
+  try{
+    const title = document.getElementById('geeTitle').value.trim();
+    const desc = document.getElementById('geeDesc').value.trim();
+    const url = document.getElementById('geeUrl').value.trim();
+    const linked = document.getElementById('geeLinkedProject').value;
+    if(!title || !url) throw new Error('Title and URL are required.');
+    const entry = { title, desc, url, icon:'fa-earth-asia', linked };
+    const existing = await ghGetFile('assets/data/gee-apps.json');
+    const list = existing.json || [];
+    list.unshift(entry);
+    await ghPutJSON('assets/data/gee-apps.json', list, 'Add GEE app: '+title);
+    geeData.unshift(entry);
+    renderGee();
+    ghToast('ok','Published — live for every visitor after the next Pages build.');
+    closeModal('addGeeModal'); this.reset(); status.style.display='none';
+  }catch(err){ status.textContent = 'Failed: '+err.message; ghToast('err', err.message); }
 });
 
 /* ---------- Video gallery modal ---------- */
