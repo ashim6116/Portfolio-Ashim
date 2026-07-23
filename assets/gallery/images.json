@@ -1,5 +1,10 @@
 [
   {
+    "file": "assets/gallery/images/dgps/IMG_20191123_131233505.jpg",
+    "category": "dgps",
+    "caption": "DGPS Survey Base"
+  },
+  {
     "file": "assets/gallery/images/others/DGPS_Data_Processing__Forest_Pillar.jpg",
     "category": "others",
     "caption": "DGPS Survey Softwear"
