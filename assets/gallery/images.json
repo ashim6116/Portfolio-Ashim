@@ -1,5 +1,10 @@
 [
   {
+    "file": "assets/gallery/images/dgps/IMG_20191118_121551759.jpg",
+    "category": "dgps",
+    "caption": "DGPS Survey Base"
+  },
+  {
     "file": "assets/gallery/images/gis/DGPS_Survey_Base.jpg",
     "category": "gis",
     "caption": "DGPS Survey Base"
